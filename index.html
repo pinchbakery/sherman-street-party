@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="SSP 2026">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#1A1A5E">
+  <meta name="description" content="3rd Annual Sherman North Street Party — Saturday, May 23, 2026 — Your neighbours are throwing a party and you're invited.">
+  <meta property="og:title" content="Sherman North Street Party 2026">
+  <meta property="og:description" content="A neighbourhood celebration of the people and businesses on Sherman Ave N. Free, all ages, rain or shine!">
+  <meta property="og:type" content="website">
+  <title>Sherman North Street Party 2026</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+      font-family: 'Futura', 'League Spartan', Helvetica, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      background: #FAFAFA;
+    }
+    a { text-decoration: none; }
+    button { cursor: pointer; }
+    img { max-width: 100%; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+  <script type="text/babel">
+// SSP 2026 App Data
+// ==================
+// All content for the Sherman Street Party app lives in this file.
+// To update any text, schedule time, business info, or FAQ — edit it here.
+// The app reads from this file, so changes here update the app automatically.
+
+const EVENT_INFO = {
+  name: "Sherman North Street Party",
+  year: "2026",
+  edition: "3rd Annual",
+  date: "Saturday, May 23, 2026",
+  tagline: "Your neighbours are throwing a party and you're invited.",
+  description: "A neighbourhood celebration of the people and businesses on Sherman Ave N. Not a festival — a street party. Free, all ages, rain or shine (we've got tents!).",
+  instagram: "@shermanstreetparty",
+  instagramUrl: "https://www.instagram.com/shermanstreetparty/",
+  email: "shermanstreetparty@gmail.com",
+  feedbackFormUrl: "", // Add Google Form URL when ready
+  cakeSignupUrl: "https://forms.gle/kTrd7YdmED6ZmHjR9",
+};
+
+const COLORS = {
+  limeGreen: "#A8E10C",
+  orange: "#FF8C00",
+  royalBlue: "#1A1AE8",
+  purple: "#C800FF",
+  hotPink: "#FF1493",
+  darkBlue: "#1A1A5E",
+  white: "#FFFFFF",
+  offWhite: "#FAFAFA",
+  lightGray: "#F0F0F0",
+};
+
+const SCHEDULE = [
+  { time: "9:30am – 12:30pm", activity: "Scholastic Kids Activities", location: "Playhouse & Pinch", details: "Klutz kits, origami, colouring sheets, stickers. Ages 8+ for most activities.", zone: "playhouse" },
+  { time: "10:00am – 11:00am", activity: "Paul Fralick — Live Music", location: "Playhouse & Pinch Parking Lot", details: "aka The Lone Rhubarbarian. Acoustic music to start your morning.", zone: "playhouse" },
+  { time: "10:00am – 12:00pm", activity: "Kids Movie Screening", location: "Playhouse Cinema", details: "Sponsored by Robin Lennox. Film TBD.", zone: "playhouse" },
+  { time: "10:00am – 4:00pm", activity: "Food Trucks", location: "Hamilton Craft Studios", details: "Galaxy Burger & Real Fruity Ice Cream (outside), Thirds Coffee (third floor).", zone: "hcs" },
+  { time: "12:30pm – 2:00pm", activity: "Cake Picnic for a Good Cause", location: "Playhouse & Pinch Parking Lot", details: "Co-hosted by Pinch & Virgo Moon Baking. Bring a 6\" nut-free cake. Leftover slices sold — $5 for 2, $10 for up to 5. All proceeds to The Dream Center (fire recovery).", zone: "playhouse" },
+  { time: "All day", activity: "Makers Market (~25 vendors)", location: "Cotton Factory", details: "", zone: "cotton" },
+  { time: "All day", activity: "Born to Eat Food Truck", location: "Cotton Factory (out front)", details: "", zone: "cotton" },
+  { time: "All day", activity: "Maker's Market (~12 participants)", location: "Hamilton Craft Studios (3rd floor)", details: "", zone: "hcs" },
+  { time: "All day", activity: "Clothing Swap", location: "Hamilton Craft Studios", details: "All sizes, all styles, not gendered.", zone: "hcs" },
+  { time: "All day", activity: "Garment Mending Clinic", location: "Hamilton Craft Studios (textile studio)", details: "", zone: "hcs" },
+  { time: "All day", activity: "Furniture Repair Clinic", location: "Hamilton Craft Studios (wood studio)", details: "", zone: "hcs" },
+  { time: "All day", activity: "Craft Zone", location: "Hamilton Craft Studios", details: "Pinwheels and more. All ages.", zone: "hcs" },
+  { time: "All day", activity: "Music to Draw To", location: "Hamilton Craft Studios", details: "Adrian V on the decks. Come hang out and draw.", zone: "hcs" },
+  { time: "All day", activity: "Seedling Sale", location: "Pinch Patio", details: "Mad Meadow Farms and Grown by Scout.", zone: "playhouse" },
+  { time: "All day", activity: "Humble Bee Honey Tasting", location: "Pinch Patio", details: "", zone: "playhouse" },
+  { time: "All day", activity: "Storytime with Parkette", location: "Playhouse & Pinch area", details: "", zone: "playhouse" },
+  { time: "All day", activity: "Community Build, Hammocks, Games & Cornhole", location: "Earl St Lot", details: "BIA community build — planters, benches, and more.", zone: "earl" },
+  { time: "All day", activity: "Hygiene Drive & Lawn Games", location: "Playhouse & Pinch Parking Lot", details: "Hosted by Helping Hands Street Mission & The Baby Depot.", zone: "playhouse" },
+];
+
+const ZONES = [
+  {
+    id: "cotton",
+    name: "Cotton Factory",
+    address: "270 Sherman Ave N",
+    color: COLORS.limeGreen,
+    side: "East side of Sherman",
+    activities: [
+      "Makers market — approximately 25 vendors",
+      "Born to Eat food truck (out front)",
+      "Live drawing (to be confirmed)",
+    ],
+    washrooms: "Available on-site",
+    parking: "Emterra lot on Biggar Ave",
+    seating: "Picnic tables out front",
+  },
+  {
+    id: "hcs",
+    name: "Hamilton Craft Studios",
+    address: "121 Princess St",
+    color: COLORS.orange,
+    side: "East side of Sherman",
+    activities: [
+      "Maker's Market (3rd floor) — approximately 12 participants",
+      "Clothing Swap — all sizes, all styles, not gendered",
+      "Garment Mending Clinic (textile studio)",
+      "Furniture Repair Clinic (wood studio)",
+      "Craft Zone — pinwheels and more, all ages, all day",
+      "Music to Draw To — Adrian V on the decks",
+      "Galaxy Burger & Real Fruity Ice Cream (outside)",
+      "Thirds Coffee (third floor)",
+    ],
+    washrooms: "Available on both floors",
+    parking: "Street parking",
+    seating: "Tables being arranged near the food trucks",
+  },
+  {
+    id: "playhouse",
+    name: "Playhouse & Pinch",
+    address: "177–183 Sherman Ave N",
+    color: COLORS.hotPink,
+    side: "West side of Sherman",
+    activities: [
+      "Kids movie screening (10am–12pm)",
+      "Paul Fralick — live music (10am–11am)",
+      "Scholastic kids activities (9:30am–12:30pm)",
+      "Storytime with Parkette",
+      "Cake Picnic for a Good Cause (12:30pm–2pm)",
+      "Seedling sale — Mad Meadow Farms + Grown by Scout (Pinch patio)",
+      "Humble Bee honey tasting (Pinch patio)",
+      "Hygiene drive & lawn games — Helping Hands & The Baby Depot",
+    ],
+    washrooms: "Pinch (4 washrooms), Playhouse Cinema (multiple stalls)",
+    parking: "Street parking",
+    seating: "Tables and chairs available",
+  },
+  {
+    id: "earl",
+    name: "Earl St Lot",
+    address: "Barton St E at Earl St",
+    color: COLORS.royalBlue,
+    side: "West side (at Barton & Earl)",
+    activities: [
+      "BIA community build — planters, benches",
+      "Hammocks, games, cornhole",
+    ],
+    washrooms: "Nearby at Pinch and Playhouse",
+    parking: "Street parking",
+    seating: "Hammocks and seating at the lot",
+  },
+];
+
+const FOOD = {
+  vendors: [
+    { name: "Born to Eat", location: "Cotton Factory (out front)", description: "Food truck serving comfort food — burgers, tacos, and mac n' cheese balls. Not junk food — healthy, fresh, and comforting.", url: "http://www.born2eat.ca/" },
+    { name: "Galaxy Burger", location: "Outside Hamilton Craft Studios", description: "Award-winning Hamilton food truck. Smash burgers made from daily-sourced ingredients.", url: "https://www.galaxyburger.ca/" },
+    { name: "Real Fruity Ice Cream", location: "Outside Hamilton Craft Studios", description: "New Zealand-inspired, made-to-order ice cream and frozen yogurt blended with real fruit. Dairy-free and vegan options available.", url: "https://www.instagram.com/realfruityicecream/" },
+    { name: "Thirds Coffee", location: "Third floor, Hamilton Craft Studios", description: "Small-batch Hamilton coffee roaster founded by sisters Olivia and Alex Billeci. Community-focused and expertly roasted.", url: "https://www.thirdscoffeeco.com/" },
+    { name: "Humble Bee", location: "Pinch patio", description: "Hamilton-based urban bee farm. Raw, unpasteurized, small-batch local honey tasting, plus beekeeping education.", url: "https://www.humblebee.buzz/" },
+    { name: "Pinch: Bakery & Plant Shop", location: "183 Sherman Ave N", description: "Nut-free bakery, cafe, and plant shop. Popcorn, baked goods, and more.", url: "https://www.shopatpinch.com/" },
+  ],
+  cakePicnic: {
+    time: "12:30pm – 2:00pm",
+    location: "Playhouse & Pinch Parking Lot",
+    description: "Bring a 6-inch nut-free cake (any flavour!). Leftover slices are sold — $5 for 2 slices, $10 for up to 5. All proceeds go to The Dream Center (fire recovery).",
+    coHosts: "Pinch Bakery & Plant Shop and Virgo Moon Baking",
+    signupUrl: "https://forms.gle/kTrd7YdmED6ZmHjR9",
+  },
+  nearby: [
+    { name: "Hottie Smash Burgers", description: "Smashburgers, all-beef dogs, cheese fries, and signature pink soft serve.", url: "https://hottiessmashburgers.com/" },
+    { name: "Vero Gallery Café", description: "Espresso drinks, pastries, and rotating art exhibitions.", url: "https://www.verocreativestudio.com/" },
+  ],
+  tips: [
+    "Most vendors take a mix of cash and card. Bring cash — it lends into the street party vibe.",
+    "Real Fruity and Pinch have vegan options. Pinch is a nut-free kitchen.",
+    "Please bring your own reusable water bottle!",
+    "No alcohol is available at this event.",
+    "You're welcome to bring your own food.",
+  ],
+};
+
+const KIDS = [
+  { name: "Kids Movie Screening", time: "10:00am – 12:00pm", location: "Playhouse Cinema", description: "Sponsored by Robin Lennox. Film TBD." },
+  { name: "Scholastic Activity Kits", time: "9:30am – 12:30pm", location: "Playhouse & Pinch area", description: "Klutz kits, origami, colouring sheets, stickers. Ages 8+ for most activities." },
+  { name: "Storytime with Parkette", time: "All day", location: "Playhouse & Pinch area", description: "Stories for the littles." },
+  { name: "Paul Fralick — Live Music", time: "10:00am – 11:00am", location: "Playhouse & Pinch Parking Lot", description: "aka The Lone Rhubarbarian. Great for kids and grown-ups alike." },
+  { name: "Craft Zone", time: "All day", location: "Hamilton Craft Studios", description: "Pinwheels and more — come craft with us! All ages." },
+  { name: "Humble Bee Honey Tasting", time: "All day", location: "Pinch patio", description: "Taste local honey and learn about bees." },
+  { name: "Seedling Sale", time: "All day", location: "Pinch patio", description: "Mad Meadow Farms and Grown by Scout." },
+  { name: "Hammocks, Games & Cornhole", time: "All day", location: "Earl St Lot", description: "Run around, play, hang out." },
+  { name: "Hygiene Drive & Lawn Games", time: "All day", location: "Playhouse & Pinch Parking Lot", description: "Hosted by Helping Hands Street Mission & The Baby Depot." },
+  { name: "Lucy Day Park", time: "Always open", location: "33 Clinton Street", description: "A short walk away — great for a break or outdoor play." },
+];
+
+const BUSINESSES = {
+  organizers: [
+    { name: "Pinch: Bakery & Plant Shop", address: "183 Sherman Ave N", bio: "A nut-free bakery, cafe, and plant shop on Sherman Ave N, founded by Stef Dubbeldam and Amanda Wright. Baked goods, sandwiches, and coffee alongside a curated plant selection, with vegan and gluten-free options always available.", url: "https://www.shopatpinch.com/" },
+    { name: "Cotton Factory", address: "270 Sherman Ave N", bio: "A former cotton mill built in 1900, transformed into a creative industries complex housing artist studios, workshops, galleries, and offices. Home to filmmakers, photographers, sign painters, and more.", url: "https://www.cottonfactory.ca/" },
+    { name: "Hamilton Craft Studios", address: "121 Princess St", bio: "A 14,000-square-foot shared creative space in a restored heritage wire factory, founded by Dayna Gedney. Studios for ceramics, textiles, woodworking, and general arts, with classes, memberships, and workspace for makers of all skill levels.", url: "https://hamiltoncraftstudios.com/" },
+    { name: "Playhouse Cinema", address: "177 Sherman Ave N", bio: "Hamilton's oldest surviving cinema, built in 1914 as a Beaux-Arts vaudeville theatre. Beautifully restored and reopened in 2019 by the Tutt family as an independent art house cinema. The vintage neon sign and historic architecture make it a neighbourhood landmark.", url: "https://playhousecinema.ca/" },
+    { name: "Epic Books: The Sequel", address: "177 Sherman Ave N", bio: "The Sherman Ave location of Jaime Krakowski's beloved independent bookstore. A carefully curated mix of fiction, non-fiction, and a fantastic kids section.", url: "https://epicbooks.ca/" },
+  ],
+  neighbourhood: [
+    { name: "Vero Gallery Café", address: "659 Barton St E", bio: "A coffee shop and art gallery that opened in 2026 in Barton Village. Espresso drinks, pastries, and rotating exhibitions from Hamilton and area artists.", url: "https://www.verocreativestudio.com/" },
+    { name: "Hotties SmashBurgers", address: "657 Barton St E", bio: "Smashed in Toronto, moved to Hamilton. Smashburgers, all-beef dogs, cheese fries, and signature pink soft serve on Barton Street.", url: "https://hottiessmashburgers.com/" },
+    { name: "Hendry's Barbershop", address: "661 Barton St E", bio: "A barbershop, a bar, and a Hamilton meeting place since 1928. Haircuts, craft beers, comedy nights, and comfortable couches at the corner of Barton and Sherman.", url: "https://hendrys.ca/" },
+    { name: "Burdin's Comics", address: "665 Barton St E", bio: "Run by Gary Burton for over 30 years. Comics, graphic novels, trading cards, action figures, and more. Tucked into the alleyway off Barton — accessible via a gravel path.", url: "https://www.burdinscomics.com/" },
+  ],
+  community: [
+    { name: "Helping Hands Street Mission", address: "669 Barton St E", bio: "A friendship-based street mission providing free supplies, coffee, community, and dignity to Hamilton's most vulnerable neighbours for over 20 years. At SSP, they're setting up at the Playhouse & Pinch parking lot with a hygiene drive and lawn games.", url: "https://hhsmhamilton.com/" },
+    { name: "The Baby Depot", address: "669 Barton St E", bio: "A charity providing a free, dignified shopping experience for families in need — a year's worth of baby clothing and essential gear, all at no cost. Joining SSP at the Playhouse & Pinch parking lot.", url: "https://www.thebabydepot.org/" },
+  ],
+  vendors: [
+    { name: "Galaxy Burger", bio: "Award-winning Hamilton food truck. Smash burgers made from daily-sourced ingredients.", url: "https://www.galaxyburger.ca/" },
+    { name: "Born to Eat", bio: "Food truck serving comfort food — burgers, tacos, and mac n' cheese balls. Healthy, fresh, and comforting.", url: "http://www.born2eat.ca/" },
+    { name: "Real Fruity Ice Cream", bio: "New Zealand-inspired, made-to-order ice cream blended with real fruit. Vegan options available.", url: "https://www.instagram.com/realfruityicecream/" },
+    { name: "Thirds Coffee", bio: "Small-batch Hamilton coffee roaster. Community-focused and expertly roasted.", url: "https://www.thirdscoffeeco.com/" },
+    { name: "Humble Bee", bio: "Hamilton-based urban bee farm with over 200 hives. Raw, small-batch local honey and beekeeping education.", url: "https://www.humblebee.buzz/" },
+    { name: "Virgo Moon Baking", bio: "Co-hosting the Cake Picnic for a Good Cause with Pinch.", url: "https://www.instagram.com/virgomoonbaking/" },
+    { name: "Mad Meadow Farm", bio: "Locally grown organic vegetables and seedlings from Hamilton, Ontario.", url: "https://www.madmeadowfarm.com/" },
+    { name: "Grown by Scout", bio: "Small-scale, no-till allotment growing mostly tomatoes in Millgrove, Ontario. Zone 6b.", url: "https://www.instagram.com/grownbyscout/" },
+    { name: "Parkette", address: "539 Barton St E", bio: "A shop for kids and the kids-at-heart on Barton Street. Toys, books, clothes, accessories, and regular storytime sessions.", url: "https://www.parkette.ca/" },
+  ],
+};
+
+const GETTING_THERE = {
+  parking: [
+    { name: "Emterra Lot", detail: "Free parking on Biggar Ave, near Cotton Factory." },
+    { name: "Municipal Car Park #64", detail: "Near the event corridor." },
+    { name: "Street parking", detail: "Available throughout the corridor." },
+  ],
+  transit: {
+    bus: "HSR Route 2 (Barton) stops at Sherman and Barton.",
+    busUrl: "https://www.hamilton.ca/hsr",
+  },
+  cycling: {
+    description: "Two Hamilton Bike Share (SoBi) hubs nearby — one in front of Cotton Factory, and one on the southwest corner of Barton and Sherman. Download the SoBi app to get started.",
+  },
+  scooter: {
+    description: "Bird e-scooters are available in the area via the Bird Canada app. Must be 16+. Lock to a bike rack or pole to end your ride.",
+  },
+  accessibility: [
+    "All areas are sidewalk-accessible. Cotton Factory and Hamilton Craft Studios both have elevators.",
+    "There is one step on the Pinch patio.",
+    "No crosswalk with a traffic light on Sherman between intersections — to cross from the Playhouse & Pinch side (west) to HCS & Cotton Factory (east), use the lights at Barton and Sherman.",
+    "The gravel alleyway connecting the Earl St Lot to Sherman (near Burdin Comics) is unpaved and has uneven surfaces.",
+    "Washrooms at Cotton Factory, HCS, and Pinch are accessible. Playhouse has one accessible bathroom.",
+    "No portable washrooms this year.",
+  ],
+  quietSpace: "Lucy Day Park (33 Clinton Street) is a short walk away — a lovely spot for a sensory break, especially with kids.",
+  trafficNote: "The street is not closed to traffic. All activities are on private properties. Please be extra mindful of increased foot traffic.",
+};
+
+const FAQS = [
+  { q: "What is the Sherman Street Party?", a: "A neighbourhood celebration of the people and businesses on Sherman Ave N. Not a festival — a street party. Think makers markets, live music, kids activities, a cake picnic, honey tasting, and good neighbours." },
+  { q: "What are the event hours?", a: "Activities at the Playhouse & Pinch parking lot run from 9:30am to 2:00pm. Cotton Factory is open from approximately 10:00am to 4:00pm. Come and go as you please!" },
+  { q: "Is it free?", a: "Yes! Free, all ages." },
+  { q: "What if it rains?", a: "Both makers markets are primarily indoors. Food trucks have their own covering. We have tents at the Playhouse & Pinch parking lot. Come rain or shine!" },
+  { q: "Are dogs allowed?", a: "Dogs are encouraged! We love doggos." },
+  { q: "What should I bring?", a: "Reusable water bottle, cash (ideal for the markets and cake picnic), sunscreen, and shopping bags if you plan to browse." },
+  { q: "Is there water available?", a: "Please bring your own reusable water bottle!" },
+  { q: "Is alcohol available?", a: "No — there is no alcohol available at this event." },
+  { q: "Can I bring my own food?", a: "Absolutely!" },
+  { q: "Are strollers welcome?", a: "Yes!" },
+  { q: "Do vendors take cards?", a: "Most makers markets are a mix of cash and card. We encourage you to bring cash — it lends into the street party vibe." },
+  { q: "Can I set up a yard sale?", a: "We encourage neighbours to set up a yard sale in front of their homes on event day!" },
+  { q: "I have a question or need help.", a: "Email shermanstreetparty@gmail.com and we'll get back to you as soon as we can." },
+];
+
+const SPONSORS = [
+  { name: "Emterra", role: "Parking lot & event cleanup" },
+  { name: "Barton Village BIA", role: "Community partner" },
+  { name: "City of Hamilton, Ward 3", role: "Grant funding" },
+  { name: "Robin Lennox", role: "Kids movie sponsorship" },
+];
+
+const { useState } = React;
+
+// ─── Helpers ────────────────────────────────────────────
+const zoneColors = { cotton: COLORS.limeGreen, hcs: COLORS.orange, playhouse: COLORS.hotPink, earl: COLORS.royalBlue };
+
+// Pinwheel image filenames — place these PNGs in a /pinwheels/ directory when deploying
+const PINWHEEL_IMAGES = {
+  green: "pinwheels/PINWHEEL_GREEN.png",
+  orange: "pinwheels/PINWHEEL_ORGANGE.png",
+  blue: "pinwheels/PINWHEEL_BLUE.png",
+  purple: "pinwheels/PINWHEEL_PURPLE.png",
+  pink: "pinwheels/PINWHEEL_PINK.png",
+  yellow: "pinwheels/PINWHEEL_YELLOW.png",
+};
+
+function Pinwheel({ colorName, size, top, left, right, bottom, opacity = 0.35, rotation = 0 }) {
+  const s = parseInt(size) || 120;
+  const src = PINWHEEL_IMAGES[colorName] || PINWHEEL_IMAGES.green;
+  return (
+    <div style={{ position: "absolute", width: s, height: s, opacity, top, left, right, bottom, pointerEvents: "none", transform: `rotate(${rotation}deg)` }}>
+      <img src={src} alt="" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+    </div>
+  );
+}
+
+function ExtLink({ href, children, style = {} }) {
+  return <a href={href} target="_blank" rel="noopener noreferrer" style={{ color: COLORS.royalBlue, textDecoration: "underline", fontWeight: 600, ...style }}>{children}</a>;
+}
+
+function Card({ children, style = {}, accent }) {
+  return (
+    <div style={{ background: "#fff", borderRadius: 16, padding: "20px 18px", marginBottom: 14, boxShadow: "0 2px 12px rgba(0,0,0,0.06)", borderLeft: accent ? `5px solid ${accent}` : "none", ...style }}>
+      {children}
+    </div>
+  );
+}
+
+function PageTitle({ children }) {
+  return <h2 style={{ fontFamily: "'League Spartan', sans-serif", fontSize: 26, fontWeight: 800, color: COLORS.darkBlue, margin: "0 0 18px 0", letterSpacing: -0.5 }}>{children}</h2>;
+}
+
+function SectionLabel({ children, color = COLORS.darkBlue }) {
+  return <h3 style={{ fontFamily: "'League Spartan', sans-serif", fontSize: 18, fontWeight: 700, color, margin: "20px 0 10px 0", textTransform: "uppercase", letterSpacing: 1 }}>{children}</h3>;
+}
+
+// ─── Pages ──────────────────────────────────────────────
+
+function HomePage({ goTo }) {
+  return (
+    <div style={{ textAlign: "center", padding: "40px 20px 30px", position: "relative", overflow: "hidden", minHeight: "100vh" }}>
+      <Pinwheel colorName="green" size={160} top={-40} left={-50} opacity={0.35} rotation={15} />
+      <Pinwheel colorName="orange" size={140} top={-30} right={-40} opacity={0.35} rotation={-20} />
+      <Pinwheel colorName="blue" size={120} bottom={80} left={-30} opacity={0.3} rotation={35} />
+      <Pinwheel colorName="purple" size={150} bottom={40} right={-50} opacity={0.3} rotation={-10} />
+
+      <div style={{ position: "relative", zIndex: 1 }}>
+        <p style={{ fontFamily: "'League Spartan', sans-serif", fontSize: 14, fontWeight: 600, color: COLORS.hotPink, textTransform: "uppercase", letterSpacing: 2, margin: "0 0 4px" }}>{EVENT_INFO.edition}</p>
+        <h1 style={{ fontFamily: "'League Spartan', sans-serif", fontSize: 38, fontWeight: 900, color: COLORS.darkBlue, margin: "0 0 4px", lineHeight: 1.05, letterSpacing: -1 }}>Sherman North</h1>
+        <p style={{ fontFamily: "'League Spartan', sans-serif", fontSize: 42, fontWeight: 900, color: COLORS.hotPink, margin: "0 0 10px", lineHeight: 1, letterSpacing: -1 }}>Street Party!!!</p>
+        <p style={{ fontFamily: "'Futura', 'League Spartan', sans-serif", fontSize: 16, fontWeight: 700, color: COLORS.darkBlue, margin: "0 0 6px" }}>{EVENT_INFO.date}</p>
+        <p style={{ fontFamily: "'Futura', sans-serif", fontSize: 14, color: "#555", margin: "0 0 30px", lineHeight: 1.5, maxWidth: 320, marginLeft: "auto", marginRight: "auto" }}>{EVENT_INFO.tagline}</p>
+
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, maxWidth: 340, margin: "0 auto" }}>
+          {[
+            { label: "📅 Schedule", page: "schedule" },
+            { label: "📍 Zones", page: "zones" },
+            { label: "🍔 Food & Drink", page: "food" },
+            { label: "👶 Kids & Families", page: "kids" },
+            { label: "🏪 Businesses", page: "businesses" },
+            { label: "🚗 Getting There", page: "getting-there" },
+            { label: "❓ FAQs", page: "faqs" },
+            { label: "💬 Contact", page: "contact" },
+          ].map((item) => (
+            <button
+              key={item.page}
+              onClick={() => goTo(item.page)}
+              style={{
+                background: "#fff",
+                border: "2px solid " + COLORS.darkBlue,
+                borderRadius: 14,
+                padding: "16px 10px",
+                fontFamily: "'League Spartan', sans-serif",
+                fontSize: 14,
+                fontWeight: 700,
+                color: COLORS.darkBlue,
+                cursor: "pointer",
+                transition: "all 0.15s ease",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
+              }}
+              onMouseDown={(e) => { e.currentTarget.style.transform = "scale(0.96)"; }}
+              onMouseUp={(e) => { e.currentTarget.style.transform = "scale(1)"; }}
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
+
+        <div style={{ marginTop: 30, padding: "16px 20px", background: COLORS.hotPink, borderRadius: 14, maxWidth: 300, margin: "30px auto 0" }}>
+          <p style={{ fontFamily: "'League Spartan', sans-serif", fontSize: 15, fontWeight: 700, color: "#fff", margin: 0, lineHeight: 1.4 }}>🎂 Sign up for the Cake Picnic!</p>
+          <p style={{ fontFamily: "'Futura', sans-serif", fontSize: 13, color: "rgba(255,255,255,0.9)", margin: "6px 0 0" }}>
+            <a href={EVENT_INFO.cakeSignupUrl} target="_blank" rel="noopener noreferrer" style={{ color: "#fff", textDecoration: "underline" }}>Register here →</a>
+          </p>
+        </div>
+
+        <p style={{ fontFamily: "'Futura', sans-serif", fontSize: 13, color: "#888", marginTop: 30 }}>
+          <a href={EVENT_INFO.instagramUrl} target="_blank" rel="noopener noreferrer" style={{ color: COLORS.royalBlue, textDecoration: "none", fontWeight: 600 }}>{EVENT_INFO.instagram}</a>
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function SchedulePage() {
+  const timed = SCHEDULE.filter(s => s.time !== "All day");
+  const allDay = SCHEDULE.filter(s => s.time === "All day");
+  return (
+    <div>
+      <PageTitle>Schedule</PageTitle>
+      <p style={{ fontFamily: "'Futura', sans-serif", fontSize: 14, color: "#666", margin: "0 0 18px", lineHeight: 1.5 }}>Come and go as you please. Here's what's happening and when.</p>
+      <SectionLabel>Timed Events</SectionLabel>
+      {timed.map((s, i) => (
+        <Card key={i} accent={zoneColors[s.zone]}>
+          <p style={{ fontFamily: "'League Spartan', sans-serif", fontSize: 13, fontWeight: 700, color: zoneColors[s.zone] || "#888", margin: "0 0 2px", textTransform: "uppercase", letterSpacing: 0.5 }}>{s.time}</p>
+          <p style={{ fontFamily: "'League Spartan', sans-serif", fontSize: 17, fontWeight: 800, color: COLORS.darkBlue, margin: "0 0 3px" }}>{s.activity}</p>
+          <p style={{ fontFamily: "'Futura', sans-serif", fontSize: 13, color: "#666", margin: 0 }}>{s.location}{s.details ? ` — ${s.details}` : ""}</p>
+        </Card>
+      ))}
+      <SectionLabel>All Day</SectionLabel>
+      {allDay.map((s, i) => (
+        <Card key={i} accent={zoneColors[s.zone]}>
+          <p style={{ fontFamily: "'League Spartan', sans-serif", fontSize: 17, fontWeight: 800, color: COLORS.darkBlue, margin: "0 0 3px" }}>{s.activity}</p>
+          <p style={{ fontFamily: "'Futura', sans-serif", fontSize: 13, color: "#666", margin: 0 }}>{s.location}{s.details ? ` — ${s.details}` : ""}</p>
+        </Card>
+      ))}
+    </div>
+  );
+}
+
+function ZonesPage() {
+  return (
+    <div>
+      <PageTitle>Zones</PageTitle>
+      <p style={{ fontFamily: "'Futura', sans-serif", fontSize: 14, color: "#666", margin: "0 0 18px", lineHeight: 1.5 }}>The street party stretches along Sherman Ave N with four distinct zones. The Earl St Lot and Playhouse & Pinch are on the west side; HCS and Cotton Factory are on the east side.</p>
+      {ZONES.map((z) => (
+        <Card key={z.id} accent={z.color} style={{ borderLeft: `5px solid ${z.color}` }}>
+          <p style={{ fontFamily: "'League Spartan', sans-serif", fontSize: 20, fontWeight: 800, color: z.color, margin: "0 0 2px" }}>{z.name}</p>
+          <p style={{ fontFamily: "'Futura', sans-serif", fontSize: 12, color: "#888", margin: "0 0 10px" }}>{z.address} · {z.side}</p>
+          {z.activities.map((a, i) => (
+            <p key={i} style={{ fontFamily: "'Futura', sans-serif", fontSize: 14, color: COLORS.darkBlue, margin: "0 0 4px", paddingLeft: 12, position: "relative" }}>
+              <span style={{ position: "absolute", left: 0, color: z.color, fontWeight: 700 }}>•</span> {a}
+            </p>
+          ))}
+          <div style={{ marginTop: 10, display: "flex", gap: 16, flexWrap: "wrap" }}>
+            <span style={{ fontFamily: "'Futura', sans-serif", fontSize: 12, color: "#888" }}>🚻 {z.washrooms}</span>
+            <span style={{ fontFamily: "'Futura', sans-serif", fontSize: 12, color: "#888" }}>🅿️ {z.parking}</span>
+          </div>
+        </Card>
+      ))}
+    </div>
+  );
+}
+
+function FoodPage() {
+  return (
+    <div>
+      <PageTitle>Food & Drink</PageTitle>
+      <SectionLabel color={COLORS.hotPink}>At the Street Party</SectionLabel>
+      {FOOD.vendors.map((v, i) => (
+        <Card key={i}>
+          <p style={{ fontFamily: "'League Spartan', sans-serif", fontSize: 17, fontWeight: 800, color: COLORS.darkBlue, margin: "0 0 2px" }}>{v.name}</p>
+          <p style={{ fontFamily: "'Futura', sans-serif", fontSize: 12, color: COLORS.hotPink, fontWeight: 600, margin: "0 0 4px" }}>{v.location}</p>
+          <p style={{ fontFamily: "'Futura', sans-serif", fontSize: 13, color: "#555", margin: "0 0 4px", lineHeight: 1.4 }}>{v.description}</p>
+          <ExtLink href={v.url} style={{ fontSize: 13 }}>Visit →</ExtLink>
+        </Card>
+      ))}
+
+      <SectionLabel color={COLORS.hotPink}>🎂 Cake Picnic</SectionLabel>
+      <Card accent={COLORS.hotPink}>
+        <p style={{ fontFamily: "'League Spartan', sans-serif", fontSize: 17, fontWeight: 800, color: COLORS.darkBlue, margin: "0 0 4px" }}>Cake Picnic for a Good Cause</p>
+        <p style={{ fontFamily: "'Futura', sans-serif", fontSize: 13, color: "#555", margin: "0 0 4px", lineHeight: 1.4 }}>{FOOD.cakePicnic.time} · {FOOD.cakePicnic.location}</p>
+        <p style={{ fontFamily: "'Futura', sans-serif", fontSize: 13, color: "#555", margin: "0 0 4px", lineHeight: 1.4 }}>{FOOD.cakePicnic.description}</p>
+        <p style={{ fontFamily: "'Futura', sans-serif", fontSize: 13, color: "#555", margin: "0 0 8px" }}>Co-hosted by {FOOD.cakePicnic.coHosts}</p>
+        <ExtLink href={FOOD.cakePicnic.signupUrl} style={{ fontSize: 14, color: COLORS.hotPink }}>Sign up →</ExtLink>
+      </Card>
+
+      <SectionLabel color={COLORS.orange}>Nearby</SectionLabel>
+      {FOOD.nearby.map((n, i) => (
+        <Card key={i}>
+          <p style={{ fontFamily: "'League Spartan', sans-serif", fontSize: 16, fontWeight: 800, color: COLORS.darkBlue, margin: "0 0 3px" }}>{n.name}</p>
+          <p style={{ fontFamily: "'Futura', sans-serif", fontSize: 13, color: "#555", margin: "0 0 4px", lineHeight: 1.4 }}>{n.description}</p>
+          <ExtLink href={n.url} style={{ fontSize: 13 }}>Visit →</ExtLink>
+        </Card>
+      ))}
+
+      <SectionLabel>Good to Know</SectionLabel>
+      <Card>
+        {FOOD.tips.map((t, i) => (
+          <p key={i} style={{ fontFamily: "'Futura', sans-serif", fontSize: 13, color: "#555", margin: "0 0 6px", lineHeight: 1.4 }}>{t}</p>
+        ))}
+      </Card>
+    </div>
+  );
+}
+
+function KidsPage() {
+  return (
+    <div>
+      <PageTitle>Kids & Families</PageTitle>
+      <p style={{ fontFamily: "'Futura', sans-serif", fontSize: 14, color: "#666", margin: "0 0 18px", lineHeight: 1.5 }}>Lots to do for the little ones (and the big ones too). Strollers welcome!</p>
+      {KIDS.map((k, i) => (
+        <Card key={i}>
+          <p style={{ fontFamily: "'League Spartan', sans-serif", fontSize: 17, fontWeight: 800, color: COLORS.darkBlue, margin: "0 0 2px" }}>{k.name}</p>
+          <p style={{ fontFamily: "'Futura', sans-serif", fontSize: 12, color: COLORS.hotPink, fontWeight: 600, margin: "0 0 4px" }}>{k.time} · {k.location}</p>
+          <p style={{ fontFamily: "'Futura', sans-serif", fontSize: 13, color: "#555", margin: 0, lineHeight: 1.4 }}>{k.description}</p>
+        </Card>
+      ))}
+    </div>
+  );
+}
+
+function BusinessesPage() {
+  const Section = ({ title, items, color }) => (
+    <>
+      <SectionLabel color={color}>{title}</SectionLabel>
+      {items.map((b, i) => (
+        <Card key={i}>
+          <p style={{ fontFamily: "'League Spartan', sans-serif", fontSize: 17, fontWeight: 800, color: COLORS.darkBlue, margin: "0 0 2px" }}>{b.name}</p>
+          {b.address && <p style={{ fontFamily: "'Futura', sans-serif", fontSize: 12, color: "#888", margin: "0 0 4px" }}>{b.address}</p>}
+          <p style={{ fontFamily: "'Futura', sans-serif", fontSize: 13, color: "#555", margin: "0 0 6px", lineHeight: 1.4 }}>{b.bio}</p>
+          <ExtLink href={b.url} style={{ fontSize: 13 }}>Visit →</ExtLink>
+        </Card>
+      ))}
+    </>
+  );
+  return (
+    <div>
+      <PageTitle>Businesses</PageTitle>
+      <p style={{ fontFamily: "'Futura', sans-serif", fontSize: 14, color: "#666", margin: "0 0 10px", lineHeight: 1.5 }}>Meet your neighbours. These are the people and businesses that make this street worth celebrating.</p>
+      <Section title="Organizers" items={BUSINESSES.organizers} color={COLORS.royalBlue} />
+      <Section title="On the Street" items={BUSINESSES.neighbourhood} color={COLORS.orange} />
+      <Section title="Community" items={BUSINESSES.community} color={COLORS.purple} />
+      <Section title="Vendors & Partners" items={BUSINESSES.vendors} color={COLORS.limeGreen} />
+      <SectionLabel color={COLORS.darkBlue}>Sponsors</SectionLabel>
+      <Card>
+        {SPONSORS.map((s, i) => (
+          <p key={i} style={{ fontFamily: "'Futura', sans-serif", fontSize: 14, color: "#555", margin: "0 0 4px" }}><strong>{s.name}</strong> — {s.role}</p>
+        ))}
+      </Card>
+    </div>
+  );
+}
+
+function GettingTherePage() {
+  return (
+    <div>
+      <PageTitle>Getting There</PageTitle>
+
+      <SectionLabel color={COLORS.royalBlue}>Parking</SectionLabel>
+      {GETTING_THERE.parking.map((p, i) => (
+        <Card key={i}>
+          <p style={{ fontFamily: "'League Spartan', sans-serif", fontSize: 16, fontWeight: 800, color: COLORS.darkBlue, margin: "0 0 3px" }}>{p.name}</p>
+          <p style={{ fontFamily: "'Futura', sans-serif", fontSize: 13, color: "#555", margin: 0 }}>{p.detail}</p>
+        </Card>
+      ))}
+
+      <SectionLabel color={COLORS.royalBlue}>By Bus</SectionLabel>
+      <Card>
+        <p style={{ fontFamily: "'Futura', sans-serif", fontSize: 14, color: "#555", margin: "0 0 6px", lineHeight: 1.4 }}>{GETTING_THERE.transit.bus}</p>
+        <ExtLink href={GETTING_THERE.transit.busUrl} style={{ fontSize: 13 }}>HSR Schedule →</ExtLink>
+      </Card>
+
+      <SectionLabel color={COLORS.limeGreen}>By Bike</SectionLabel>
+      <Card>
+        <p style={{ fontFamily: "'Futura', sans-serif", fontSize: 14, color: "#555", margin: 0, lineHeight: 1.4 }}>{GETTING_THERE.cycling.description}</p>
+      </Card>
+
+      <SectionLabel color={COLORS.orange}>By Scooter</SectionLabel>
+      <Card>
+        <p style={{ fontFamily: "'Futura', sans-serif", fontSize: 14, color: "#555", margin: 0, lineHeight: 1.4 }}>{GETTING_THERE.scooter.description}</p>
+      </Card>
+
+      <SectionLabel color={COLORS.purple}>Accessibility</SectionLabel>
+      <Card>
+        {GETTING_THERE.accessibility.map((a, i) => (
+          <p key={i} style={{ fontFamily: "'Futura', sans-serif", fontSize: 13, color: "#555", margin: "0 0 8px", lineHeight: 1.4 }}>{a}</p>
+        ))}
+      </Card>
+
+      <SectionLabel>Quiet Space</SectionLabel>
+      <Card>
+        <p style={{ fontFamily: "'Futura', sans-serif", fontSize: 14, color: "#555", margin: 0, lineHeight: 1.4 }}>{GETTING_THERE.quietSpace}</p>
+      </Card>
+
+      <Card style={{ background: "#FFF8E1", borderLeft: `5px solid ${COLORS.orange}` }}>
+        <p style={{ fontFamily: "'Futura', sans-serif", fontSize: 13, color: "#555", margin: 0, lineHeight: 1.4 }}>⚠️ {GETTING_THERE.trafficNote}</p>
+      </Card>
+    </div>
+  );
+}
+
+function FAQsPage() {
+  const [open, setOpen] = useState(null);
+  return (
+    <div>
+      <PageTitle>FAQs</PageTitle>
+      {FAQS.map((f, i) => (
+        <div key={i} onClick={() => setOpen(open === i ? null : i)} style={{ cursor: "pointer", marginBottom: 8 }}>
+          <Card style={{ marginBottom: 0 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <p style={{ fontFamily: "'League Spartan', sans-serif", fontSize: 15, fontWeight: 700, color: COLORS.darkBlue, margin: 0, flex: 1, paddingRight: 10 }}>{f.q}</p>
+              <span style={{ fontSize: 18, color: COLORS.hotPink, fontWeight: 700, flexShrink: 0 }}>{open === i ? "−" : "+"}</span>
+            </div>
+            {open === i && (
+              <p style={{ fontFamily: "'Futura', sans-serif", fontSize: 14, color: "#555", margin: "10px 0 0", lineHeight: 1.5 }}>{f.a}</p>
+            )}
+          </Card>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function ContactPage() {
+  return (
+    <div>
+      <PageTitle>Contact</PageTitle>
+      <Card accent={COLORS.royalBlue}>
+        <p style={{ fontFamily: "'League Spartan', sans-serif", fontSize: 17, fontWeight: 800, color: COLORS.darkBlue, margin: "0 0 6px" }}>Got a question?</p>
+        <p style={{ fontFamily: "'Futura', sans-serif", fontSize: 14, color: "#555", margin: "0 0 10px", lineHeight: 1.4 }}>Email us and we'll get back to you as soon as we can.</p>
+        <ExtLink href={"mailto:" + EVENT_INFO.email} style={{ fontSize: 15, color: COLORS.royalBlue }}>{EVENT_INFO.email}</ExtLink>
+      </Card>
+
+      <Card accent={COLORS.limeGreen}>
+        <p style={{ fontFamily: "'League Spartan', sans-serif", fontSize: 17, fontWeight: 800, color: COLORS.darkBlue, margin: "0 0 6px" }}>Want to get involved next year?</p>
+        <p style={{ fontFamily: "'Futura', sans-serif", fontSize: 14, color: "#555", margin: "0 0 10px", lineHeight: 1.4 }}>We'd love to hear from you. Drop us a line.</p>
+        <ExtLink href={"mailto:" + EVENT_INFO.email + "?subject=Getting%20Involved%20%E2%80%93%20SSP%202027"} style={{ fontSize: 15, color: COLORS.royalBlue }}>Get in touch →</ExtLink>
+      </Card>
+
+      <Card accent={COLORS.hotPink}>
+        <p style={{ fontFamily: "'League Spartan', sans-serif", fontSize: 17, fontWeight: 800, color: COLORS.darkBlue, margin: "0 0 6px" }}>How was your day?</p>
+        <p style={{ fontFamily: "'Futura', sans-serif", fontSize: 14, color: "#555", margin: "0 0 10px", lineHeight: 1.4 }}>We'd love your feedback — it takes about a minute.</p>
+        {EVENT_INFO.feedbackFormUrl ? (
+          <ExtLink href={EVENT_INFO.feedbackFormUrl} style={{ fontSize: 15, color: COLORS.hotPink }}>Share feedback →</ExtLink>
+        ) : (
+          <p style={{ fontFamily: "'Futura', sans-serif", fontSize: 13, color: "#aaa", margin: 0, fontStyle: "italic" }}>Feedback form coming soon!</p>
+        )}
+      </Card>
+
+      <Card>
+        <p style={{ fontFamily: "'League Spartan', sans-serif", fontSize: 17, fontWeight: 800, color: COLORS.darkBlue, margin: "0 0 6px" }}>Follow along</p>
+        <ExtLink href={EVENT_INFO.instagramUrl} style={{ fontSize: 15 }}>{EVENT_INFO.instagram}</ExtLink>
+      </Card>
+    </div>
+  );
+}
+
+// ─── App Shell ──────────────────────────────────────────
+
+const PAGES = {
+  home: { component: HomePage, title: "Home" },
+  schedule: { component: SchedulePage, title: "Schedule" },
+  zones: { component: ZonesPage, title: "Zones" },
+  food: { component: FoodPage, title: "Food & Drink" },
+  kids: { component: KidsPage, title: "Kids & Families" },
+  businesses: { component: BusinessesPage, title: "Businesses" },
+  "getting-there": { component: GettingTherePage, title: "Getting There" },
+  faqs: { component: FAQsPage, title: "FAQs" },
+  contact: { component: ContactPage, title: "Contact" },
+};
+
+function App() {
+  const [page, setPage] = useState("home");
+  const goTo = (p) => { setPage(p); window.scrollTo(0, 0); };
+  const CurrentPage = PAGES[page].component;
+
+  return (
+    <div style={{ fontFamily: "'Futura', 'League Spartan', Helvetica, sans-serif", maxWidth: 420, margin: "0 auto", background: COLORS.offWhite, minHeight: "100vh", position: "relative" }}>
+      <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+
+      {/* Header (non-home pages) */}
+      {page !== "home" && (
+        <div style={{ position: "sticky", top: 0, zIndex: 100, background: COLORS.darkBlue, padding: "12px 16px", display: "flex", alignItems: "center", gap: 12 }}>
+          <button onClick={() => goTo("home")} style={{ background: "none", border: "none", color: "#fff", fontSize: 20, cursor: "pointer", padding: "0 4px", fontWeight: 700 }}>←</button>
+          <span style={{ fontFamily: "'League Spartan', sans-serif", fontSize: 17, fontWeight: 700, color: "#fff" }}>{PAGES[page].title}</span>
+          <span style={{ marginLeft: "auto", fontFamily: "'League Spartan', sans-serif", fontSize: 11, fontWeight: 600, color: COLORS.hotPink, textTransform: "uppercase", letterSpacing: 1 }}>SSP 2026</span>
+        </div>
+      )}
+
+      {/* Page content */}
+      <div style={{ padding: page === "home" ? 0 : "20px 16px 100px" }}>
+        {page === "home" ? <CurrentPage goTo={goTo} /> : <CurrentPage />}
+      </div>
+
+      {/* Bottom nav (non-home pages) */}
+      {page !== "home" && (
+        <div style={{ position: "fixed", bottom: 0, left: "50%", transform: "translateX(-50%)", width: "100%", maxWidth: 420, background: "#fff", borderTop: "1px solid #eee", display: "flex", justifyContent: "space-around", padding: "10px 0 14px", zIndex: 100 }}>
+          {[
+            { emoji: "🏠", label: "Home", p: "home" },
+            { emoji: "📅", label: "Schedule", p: "schedule" },
+            { emoji: "📍", label: "Zones", p: "zones" },
+            { emoji: "🍔", label: "Food", p: "food" },
+            { emoji: "❓", label: "FAQs", p: "faqs" },
+          ].map((n) => (
+            <button
+              key={n.p}
+              onClick={() => goTo(n.p)}
+              style={{
+                background: "none", border: "none", cursor: "pointer",
+                display: "flex", flexDirection: "column", alignItems: "center", gap: 2,
+                opacity: page === n.p ? 1 : 0.5,
+              }}
+            >
+              <span style={{ fontSize: 18 }}>{n.emoji}</span>
+              <span style={{ fontFamily: "'League Spartan', sans-serif", fontSize: 10, fontWeight: 700, color: COLORS.darkBlue }}>{n.label}</span>
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+
+    // ─── Mount the app ──────────────────────────────────────
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(React.createElement(App));
+  </script>
+</body>
+</html>
