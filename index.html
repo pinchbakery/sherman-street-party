@@ -24,9 +24,11 @@
     button { cursor: pointer; }
     img { max-width: 100%; }
   </style>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
 <body>
   <div id="root"></div>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
   <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
@@ -283,7 +285,7 @@ const SPONSORS = [
   { name: "Robin Lennox", role: "Kids movie sponsorship" },
 ];
 
-const { useState } = React;
+const { useState, useEffect, useRef } = React;
 
 // ─── Helpers ────────────────────────────────────────────
 const zoneColors = { cotton: COLORS.limeGreen, hcs: COLORS.orange, playhouse: COLORS.hotPink, earl: COLORS.royalBlue };
@@ -436,84 +438,77 @@ function SchedulePage() {
 }
 
 function CorridorMap() {
-  const W = 380, H = 520;
-  const streetX = W / 2;
-  const zoneData = [
-    { label: "Cotton Factory", sub: "270 Sherman Ave N", y: 80, side: "right", color: COLORS.limeGreen, emoji: "🏭" },
-    { label: "Hamilton Craft Studios", sub: "121 Princess St", y: 180, side: "right", color: COLORS.orange, emoji: "🎨" },
-    { label: "Playhouse & Pinch", sub: "177–183 Sherman Ave N", y: 280, side: "left", color: COLORS.hotPink, emoji: "🎬" },
-    { label: "Earl St Lot", sub: "Barton & Earl", y: 400, side: "left", color: COLORS.royalBlue, emoji: "🌿" },
-  ];
-  const biz = [
-    { label: "Hotties", y: 350, side: "right", color: "#999" },
-    { label: "Vero Café", y: 370, side: "right", color: "#999" },
-    { label: "Hendry's", y: 390, side: "right", color: "#999" },
-    { label: "Burdin's Comics", y: 420, side: "right", color: "#999" },
-  ];
+  const mapRef = useRef(null);
+  const mapInstance = useRef(null);
+
+  useEffect(() => {
+    if (mapInstance.current || !mapRef.current) return;
+
+    const map = L.map(mapRef.current, { scrollWheelZoom: false, zoomControl: true }).setView([43.2580, -79.8352], 16);
+    mapInstance.current = map;
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap',
+      maxZoom: 19
+    }).addTo(map);
+
+    function zoneIcon(color) {
+      return L.divIcon({ className: '', html: '<div style="width:22px;height:22px;border-radius:50%;background:'+color+';border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.3);"></div>', iconSize: [22, 22], iconAnchor: [11, 11] });
+    }
+    function smallDot(color) {
+      return L.divIcon({ className: '', html: '<div style="width:12px;height:12px;border-radius:50%;background:'+(color||"#999")+';border:2px solid white;box-shadow:0 1px 4px rgba(0,0,0,0.3);"></div>', iconSize: [12, 12], iconAnchor: [6, 6] });
+    }
+    function labelIcon(emoji, bg) {
+      return L.divIcon({ className: '', html: '<div style="width:20px;height:20px;border-radius:50%;background:'+(bg||"#666")+';border:2px solid white;box-shadow:0 1px 4px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;font-size:10px;">'+emoji+'</div>', iconSize: [20, 20], iconAnchor: [10, 10] });
+    }
+
+    var zones = [
+      [43.2600, -79.8333, "Cotton Factory", "270 Sherman Ave N. ~25 vendors, Born to Eat food truck out front.", "#A8E10C"],
+      [43.2587, -79.8345, "Hamilton Craft Studios", "121 Princess St. Maker's market (3rd floor), clothing swap, garment mending clinic, furniture repair clinic, craft zone, Music to Draw To. Galaxy Burger + Real Fruity (outside), Thirds Coffee (3rd floor).", "#FF8C00"],
+      [43.2573, -79.8360, "Playhouse & Pinch", "177-183 Sherman Ave N. Kids movie (10am-12pm), Paul Fralick (10-11am), Scholastic activities (9:30am-12:30pm), storytime with Parkette, Cake Picnic (12:30-2pm), seedling sale, Humble Bee honey tasting, hygiene drive + lawn games.", "#FF1493"],
+      [43.2570, -79.8378, "Earl St Lot", "Barton St E at Earl St. BIA community build (planters, benches), hammocks, games, cornhole.", "#1A1AE8"]
+    ];
+    zones.forEach(function(z) {
+      L.marker([z[0], z[1]], { icon: zoneIcon(z[4]) }).addTo(map).bindPopup('<b style="color:'+z[4]+'">'+z[2]+'</b><br><span style="font-size:12px;">'+z[3]+'</span>');
+    });
+
+    var businesses = [
+      [43.2569, -79.8371, "Hotties SmashBurgers", "657 Barton St E"],
+      [43.2568, -79.8370, "Vero Gallery Café", "659 Barton St E"],
+      [43.2568, -79.8369, "Hendry's Barbershop", "661 Barton St E"],
+      [43.2570, -79.8367, "Burdin's Comics", "665 Barton St E (alley — gravel path)"],
+      [43.2567, -79.8364, "Helping Hands + Baby Depot", "669 Barton St E — hygiene drive + lawn games at Playhouse & Pinch lot"],
+      [43.2572, -79.8362, "Epic Books: The Sequel", "177 Sherman Ave N"]
+    ];
+    businesses.forEach(function(b) {
+      L.marker([b[0], b[1]], { icon: smallDot() }).addTo(map).bindPopup('<b>'+b[2]+'</b><br><span style="font-size:12px;">'+b[3]+'</span>');
+    });
+
+    L.marker([43.2605, -79.8329], { icon: labelIcon('P', '#555') }).addTo(map).bindPopup('<b>Emterra Lot (FREE)</b><br><span style="font-size:12px;">15 Biggar Ave</span>');
+    L.marker([43.2568, -79.8355], { icon: labelIcon('P', '#555') }).addTo(map).bindPopup('<b>Municipal Car Park #64</b><br><span style="font-size:12px;">176 Sherman Ave N</span>');
+    L.marker([43.2578, -79.8334], { icon: labelIcon('🌳', '#5DCAA5') }).addTo(map).bindPopup('<b>Lucy Day Park</b><br><span style="font-size:12px;">33 Clinton St — quiet space / sensory break</span>');
+    L.marker([43.2600, -79.8331], { icon: labelIcon('🚲', '#4BB8F0') }).addTo(map).bindPopup('<b>SoBi: 270 Sherman</b><br><span style="font-size:12px;">272 Sherman Ave N (near Cotton Factory)</span>');
+    L.marker([43.2559, -79.8366], { icon: labelIcon('🚲', '#4BB8F0') }).addTo(map).bindPopup('<b>SoBi: Sherman at Barton (ERI02)</b><br><span style="font-size:12px;">141-147 Sherman Ave N</span>');
+
+    setTimeout(function() { map.invalidateSize(); }, 200);
+  }, []);
+
   return (
-    <div style={{ background: COLORS.darkBlue, borderRadius: 16, padding: "20px 10px", marginBottom: 18, overflow: "hidden" }}>
-      <svg viewBox={`0 0 ${W} ${H}`} width="100%" style={{ display: "block" }}>
-        {/* Street */}
-        <rect x={streetX - 12} y={30} width={24} height={H - 60} rx={12} fill="rgba(255,255,255,0.12)" />
-        <line x1={streetX} y1={40} x2={streetX} y2={H - 40} stroke="rgba(255,255,255,0.3)" strokeWidth={1} strokeDasharray="6 4" />
-
-        {/* Street labels */}
-        <text x={streetX} y={22} fill="rgba(255,255,255,0.5)" fontSize="9" fontFamily="League Spartan" fontWeight="600" textAnchor="middle" letterSpacing="2">SHERMAN AVE N</text>
-        <text x={streetX - 60} y={H - 12} fill="rgba(255,255,255,0.4)" fontSize="8" fontFamily="League Spartan" fontWeight="600" textAnchor="middle" letterSpacing="1">BURLINGTON ST</text>
-        <text x={streetX + 50} y={340} fill="rgba(255,255,255,0.4)" fontSize="8" fontFamily="League Spartan" fontWeight="600" textAnchor="middle" letterSpacing="1" transform={`rotate(90 ${streetX + 50} 340)`}>BARTON ST E</text>
-
-        {/* Side labels */}
-        <text x={streetX - 50} y={50} fill="rgba(255,255,255,0.35)" fontSize="8" fontFamily="League Spartan" fontWeight="600" textAnchor="middle" letterSpacing="1">← WEST</text>
-        <text x={streetX + 50} y={50} fill="rgba(255,255,255,0.35)" fontSize="8" fontFamily="League Spartan" fontWeight="600" textAnchor="middle" letterSpacing="1">EAST →</text>
-
-        {/* Crossing note */}
-        <rect x={streetX - 85} y={322} width={170} height={22} rx={6} fill="rgba(255,140,0,0.25)" />
-        <text x={streetX} y={337} fill={COLORS.orange} fontSize="7.5" fontFamily="League Spartan" fontWeight="600" textAnchor="middle">⚠ Cross at Barton & Sherman lights</text>
-
-        {/* Barton St line */}
-        <line x1={30} y1={345} x2={W - 30} y2={345} stroke="rgba(255,255,255,0.15)" strokeWidth={2} />
-
-        {/* Zones */}
-        {zoneData.map((z, i) => {
-          const isLeft = z.side === "left";
-          const boxX = isLeft ? 10 : streetX + 22;
-          const boxW = streetX - 35;
-          const dotX = isLeft ? streetX - 16 : streetX + 16;
-          return (
-            <g key={i}>
-              {/* Connector line */}
-              <line x1={dotX} y1={z.y} x2={isLeft ? boxX + boxW : boxX} y2={z.y} stroke={z.color} strokeWidth={2} opacity={0.5} />
-              {/* Dot on street */}
-              <circle cx={dotX} cy={z.y} r={6} fill={z.color} />
-              <text x={dotX} y={z.y + 3.5} fill={COLORS.darkBlue} fontSize="8" textAnchor="middle">{z.emoji}</text>
-              {/* Zone box */}
-              <rect x={boxX} y={z.y - 22} width={boxW} height={44} rx={8} fill={z.color} opacity={0.18} stroke={z.color} strokeWidth={1.5} />
-              <text x={boxX + 8} y={z.y - 5} fill="#fff" fontSize="11" fontFamily="League Spartan" fontWeight="700">{z.label}</text>
-              <text x={boxX + 8} y={z.y + 10} fill="rgba(255,255,255,0.6)" fontSize="8" fontFamily="League Spartan" fontWeight="400">{z.sub}</text>
-            </g>
+    <div style={{ borderRadius: 16, overflow: "hidden", marginBottom: 18, border: "2px solid " + COLORS.darkBlue }}>
+      <div ref={mapRef} style={{ width: "100%", height: 400 }}></div>
+      <div style={{ background: COLORS.darkBlue, padding: "8px 12px", display: "flex", gap: 10, flexWrap: "wrap", justifyContent: "center" }}>
+        {[
+          { color: "#A8E10C", label: "Cotton Factory" },
+          { color: "#FF8C00", label: "HCS" },
+          { color: "#FF1493", label: "Playhouse & Pinch" },
+          { color: "#1A1AE8", label: "Earl St Lot" },
+        ].map(function(l) {
+          return React.createElement("span", { key: l.label, style: { display: "flex", alignItems: "center", gap: 4 } },
+            React.createElement("span", { style: { width: 10, height: 10, borderRadius: "50%", background: l.color, display: "inline-block" } }),
+            React.createElement("span", { style: { fontFamily: "'League Spartan', sans-serif", fontSize: 11, color: "rgba(255,255,255,0.7)" } }, l.label)
           );
         })}
-
-        {/* Nearby businesses on Barton */}
-        {biz.map((b, i) => (
-          <g key={"b" + i}>
-            <circle cx={streetX + 24} cy={b.y} r={2.5} fill="rgba(255,255,255,0.4)" />
-            <text x={streetX + 30} y={b.y + 3} fill="rgba(255,255,255,0.5)" fontSize="7.5" fontFamily="League Spartan">{b.label}</text>
-          </g>
-        ))}
-
-        {/* Parking */}
-        <g>
-          <text x={streetX + 80} y={105} fill={COLORS.limeGreen} fontSize="8" fontFamily="League Spartan" fontWeight="600" opacity={0.7}>🅿 Emterra Lot</text>
-          <text x={streetX + 80} y={116} fill="rgba(255,255,255,0.4)" fontSize="7" fontFamily="League Spartan">(Biggar Ave — FREE)</text>
-        </g>
-
-        {/* Lucy Day Park */}
-        <g>
-          <text x={streetX + 60} y={155} fill="rgba(255,255,255,0.5)" fontSize="7.5" fontFamily="League Spartan">🌳 Lucy Day Park</text>
-          <text x={streetX + 60} y={166} fill="rgba(255,255,255,0.35)" fontSize="7" fontFamily="League Spartan">(quiet space nearby)</text>
-        </g>
-      </svg>
+      </div>
     </div>
   );
 }
