@@ -262,7 +262,7 @@ const GETTING_THERE = {
 
 const FAQS = [
   { q: "What is the Sherman Street Party?", a: "A neighbourhood celebration of the people and businesses on Sherman Ave N. Not a festival — a street party. Think makers markets, live music, kids activities, a cake picnic, honey tasting, and good neighbours." },
-  { q: "What are the event hours?", a: "Activities at the Playhouse & Pinch parking lot run from 9:30am to 2:00pm. Cotton Factory is open from approximately 10:00am to 4:00pm. Come and go as you please!" },
+  { q: "What are the event hours?", a: "Activities at the Playhouse & Pinch parking lot run from 9:30am to 2:00pm. Cotton Factory and Hamilton Craft Studios are open from approximately 10:00am to 4:00pm. Come and go as you please!" },
   { q: "Is it free?", a: "Yes! Free, all ages." },
   { q: "What if it rains?", a: "Both makers markets are primarily indoors. Food trucks have their own covering. We have tents at the Playhouse & Pinch parking lot. Come rain or shine!" },
   { q: "Are dogs allowed?", a: "Dogs are encouraged! We love doggos." },
@@ -387,6 +387,17 @@ function HomePage({ goTo }) {
           </p>
         </div>
 
+        <div style={{ marginTop: 16, padding: "14px 20px", background: "#fff", borderRadius: 14, maxWidth: 300, margin: "16px auto 0", border: "2px dashed " + COLORS.orange, textAlign: "left" }}>
+          <p style={{ fontFamily: "'League Spartan', sans-serif", fontSize: 14, fontWeight: 700, color: COLORS.darkBlue, margin: "0 0 6px" }}>🎒 Don't forget!</p>
+          <p style={{ fontFamily: "'Futura', sans-serif", fontSize: 12, color: "#555", margin: 0, lineHeight: 1.6 }}>Reusable water bottle · Cash · Sunscreen · Shopping bags · Comfy shoes for exploring</p>
+        </div>
+
+        <div style={{ marginTop: 16, display: "flex", gap: 10, justifyContent: "center" }}>
+          <button onClick={() => { if (navigator.share) { navigator.share({ title: "Sherman North Street Party 2026", text: "Your neighbours are throwing a party! Saturday May 23.", url: window.location.href }); } else { navigator.clipboard.writeText(window.location.href); alert("Link copied!"); } }} style={{ background: COLORS.royalBlue, border: "none", borderRadius: 10, padding: "10px 18px", fontFamily: "'League Spartan', sans-serif", fontSize: 13, fontWeight: 700, color: "#fff" }}>
+            📤 Share with a friend
+          </button>
+        </div>
+
         <p style={{ fontFamily: "'Futura', sans-serif", fontSize: 13, color: "#888", marginTop: 30 }}>
           <a href={EVENT_INFO.instagramUrl} target="_blank" rel="noopener noreferrer" style={{ color: COLORS.royalBlue, textDecoration: "none", fontWeight: 600 }}>{EVENT_INFO.instagram}</a>
         </p>
@@ -408,6 +419,9 @@ function SchedulePage() {
           <p style={{ fontFamily: "'League Spartan', sans-serif", fontSize: 13, fontWeight: 700, color: zoneColors[s.zone] || "#888", margin: "0 0 2px", textTransform: "uppercase", letterSpacing: 0.5 }}>{s.time}</p>
           <p style={{ fontFamily: "'League Spartan', sans-serif", fontSize: 17, fontWeight: 800, color: COLORS.darkBlue, margin: "0 0 3px" }}>{s.activity}</p>
           <p style={{ fontFamily: "'Futura', sans-serif", fontSize: 13, color: "#666", margin: 0 }}>{s.location}{s.details ? ` — ${s.details}` : ""}</p>
+          {s.activity.includes("Cake Picnic") && (
+            <p style={{ marginTop: 6 }}><ExtLink href={EVENT_INFO.cakeSignupUrl} style={{ fontSize: 13, color: COLORS.hotPink }}>Sign up for the Cake Picnic →</ExtLink></p>
+          )}
         </Card>
       ))}
       <SectionLabel>All Day</SectionLabel>
@@ -421,11 +435,95 @@ function SchedulePage() {
   );
 }
 
+function CorridorMap() {
+  const W = 380, H = 520;
+  const streetX = W / 2;
+  const zoneData = [
+    { label: "Cotton Factory", sub: "270 Sherman Ave N", y: 80, side: "right", color: COLORS.limeGreen, emoji: "🏭" },
+    { label: "Hamilton Craft Studios", sub: "121 Princess St", y: 180, side: "right", color: COLORS.orange, emoji: "🎨" },
+    { label: "Playhouse & Pinch", sub: "177–183 Sherman Ave N", y: 280, side: "left", color: COLORS.hotPink, emoji: "🎬" },
+    { label: "Earl St Lot", sub: "Barton & Earl", y: 400, side: "left", color: COLORS.royalBlue, emoji: "🌿" },
+  ];
+  const biz = [
+    { label: "Hotties", y: 350, side: "right", color: "#999" },
+    { label: "Vero Café", y: 370, side: "right", color: "#999" },
+    { label: "Hendry's", y: 390, side: "right", color: "#999" },
+    { label: "Burdin's Comics", y: 420, side: "right", color: "#999" },
+  ];
+  return (
+    <div style={{ background: COLORS.darkBlue, borderRadius: 16, padding: "20px 10px", marginBottom: 18, overflow: "hidden" }}>
+      <svg viewBox={`0 0 ${W} ${H}`} width="100%" style={{ display: "block" }}>
+        {/* Street */}
+        <rect x={streetX - 12} y={30} width={24} height={H - 60} rx={12} fill="rgba(255,255,255,0.12)" />
+        <line x1={streetX} y1={40} x2={streetX} y2={H - 40} stroke="rgba(255,255,255,0.3)" strokeWidth={1} strokeDasharray="6 4" />
+
+        {/* Street labels */}
+        <text x={streetX} y={22} fill="rgba(255,255,255,0.5)" fontSize="9" fontFamily="League Spartan" fontWeight="600" textAnchor="middle" letterSpacing="2">SHERMAN AVE N</text>
+        <text x={streetX - 60} y={H - 12} fill="rgba(255,255,255,0.4)" fontSize="8" fontFamily="League Spartan" fontWeight="600" textAnchor="middle" letterSpacing="1">BURLINGTON ST</text>
+        <text x={streetX + 50} y={340} fill="rgba(255,255,255,0.4)" fontSize="8" fontFamily="League Spartan" fontWeight="600" textAnchor="middle" letterSpacing="1" transform={`rotate(90 ${streetX + 50} 340)`}>BARTON ST E</text>
+
+        {/* Side labels */}
+        <text x={streetX - 50} y={50} fill="rgba(255,255,255,0.35)" fontSize="8" fontFamily="League Spartan" fontWeight="600" textAnchor="middle" letterSpacing="1">← WEST</text>
+        <text x={streetX + 50} y={50} fill="rgba(255,255,255,0.35)" fontSize="8" fontFamily="League Spartan" fontWeight="600" textAnchor="middle" letterSpacing="1">EAST →</text>
+
+        {/* Crossing note */}
+        <rect x={streetX - 85} y={322} width={170} height={22} rx={6} fill="rgba(255,140,0,0.25)" />
+        <text x={streetX} y={337} fill={COLORS.orange} fontSize="7.5" fontFamily="League Spartan" fontWeight="600" textAnchor="middle">⚠ Cross at Barton & Sherman lights</text>
+
+        {/* Barton St line */}
+        <line x1={30} y1={345} x2={W - 30} y2={345} stroke="rgba(255,255,255,0.15)" strokeWidth={2} />
+
+        {/* Zones */}
+        {zoneData.map((z, i) => {
+          const isLeft = z.side === "left";
+          const boxX = isLeft ? 10 : streetX + 22;
+          const boxW = streetX - 35;
+          const dotX = isLeft ? streetX - 16 : streetX + 16;
+          return (
+            <g key={i}>
+              {/* Connector line */}
+              <line x1={dotX} y1={z.y} x2={isLeft ? boxX + boxW : boxX} y2={z.y} stroke={z.color} strokeWidth={2} opacity={0.5} />
+              {/* Dot on street */}
+              <circle cx={dotX} cy={z.y} r={6} fill={z.color} />
+              <text x={dotX} y={z.y + 3.5} fill={COLORS.darkBlue} fontSize="8" textAnchor="middle">{z.emoji}</text>
+              {/* Zone box */}
+              <rect x={boxX} y={z.y - 22} width={boxW} height={44} rx={8} fill={z.color} opacity={0.18} stroke={z.color} strokeWidth={1.5} />
+              <text x={boxX + 8} y={z.y - 5} fill="#fff" fontSize="11" fontFamily="League Spartan" fontWeight="700">{z.label}</text>
+              <text x={boxX + 8} y={z.y + 10} fill="rgba(255,255,255,0.6)" fontSize="8" fontFamily="League Spartan" fontWeight="400">{z.sub}</text>
+            </g>
+          );
+        })}
+
+        {/* Nearby businesses on Barton */}
+        {biz.map((b, i) => (
+          <g key={"b" + i}>
+            <circle cx={streetX + 24} cy={b.y} r={2.5} fill="rgba(255,255,255,0.4)" />
+            <text x={streetX + 30} y={b.y + 3} fill="rgba(255,255,255,0.5)" fontSize="7.5" fontFamily="League Spartan">{b.label}</text>
+          </g>
+        ))}
+
+        {/* Parking */}
+        <g>
+          <text x={streetX + 80} y={105} fill={COLORS.limeGreen} fontSize="8" fontFamily="League Spartan" fontWeight="600" opacity={0.7}>🅿 Emterra Lot</text>
+          <text x={streetX + 80} y={116} fill="rgba(255,255,255,0.4)" fontSize="7" fontFamily="League Spartan">(Biggar Ave — FREE)</text>
+        </g>
+
+        {/* Lucy Day Park */}
+        <g>
+          <text x={streetX + 60} y={155} fill="rgba(255,255,255,0.5)" fontSize="7.5" fontFamily="League Spartan">🌳 Lucy Day Park</text>
+          <text x={streetX + 60} y={166} fill="rgba(255,255,255,0.35)" fontSize="7" fontFamily="League Spartan">(quiet space nearby)</text>
+        </g>
+      </svg>
+    </div>
+  );
+}
+
 function ZonesPage() {
   return (
     <div>
       <PageTitle>Zones</PageTitle>
       <p style={{ fontFamily: "'Futura', sans-serif", fontSize: 14, color: "#666", margin: "0 0 18px", lineHeight: 1.5 }}>The street party stretches along Sherman Ave N with four distinct zones. The Earl St Lot and Playhouse & Pinch are on the west side; HCS and Cotton Factory are on the east side.</p>
+      <CorridorMap />
       {ZONES.map((z) => (
         <Card key={z.id} accent={z.color} style={{ borderLeft: `5px solid ${z.color}` }}>
           <p style={{ fontFamily: "'League Spartan', sans-serif", fontSize: 20, fontWeight: 800, color: z.color, margin: "0 0 2px" }}>{z.name}</p>
@@ -435,9 +533,10 @@ function ZonesPage() {
               <span style={{ position: "absolute", left: 0, color: z.color, fontWeight: 700 }}>•</span> {a}
             </p>
           ))}
-          <div style={{ marginTop: 10, display: "flex", gap: 16, flexWrap: "wrap" }}>
+          <div style={{ marginTop: 10, display: "flex", gap: 12, flexWrap: "wrap" }}>
             <span style={{ fontFamily: "'Futura', sans-serif", fontSize: 12, color: "#888" }}>🚻 {z.washrooms}</span>
             <span style={{ fontFamily: "'Futura', sans-serif", fontSize: 12, color: "#888" }}>🅿️ {z.parking}</span>
+            <span style={{ fontFamily: "'Futura', sans-serif", fontSize: 12, color: "#888" }}>💺 {z.seating}</span>
           </div>
         </Card>
       ))}
