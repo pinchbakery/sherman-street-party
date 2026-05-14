@@ -71,6 +71,7 @@ const COLORS = {
 };
 
 const SCHEDULE = [
+  { time: "9:30am – 10:30am", activity: "Storytime with Parkette", location: "Playhouse & Pinch area", details: "With Maria from Parkette.", zone: "playhouse" },
   { time: "9:30am – 12:30pm", activity: "Scholastic Kids Activities", location: "Playhouse & Pinch", details: "Klutz kits, origami, colouring sheets, stickers. Ages 8+ for most activities.", zone: "playhouse" },
   { time: "10:30am – 11:30am", activity: "Paul Fralick — Live Music", location: "Playhouse & Pinch Parking Lot", details: "aka The Lone Rhubarbarian. Acoustic music to start your morning.", zone: "playhouse" },
   { time: "10:00am – 12:00pm", activity: "Zootopia — Kids Movie Screening", location: "Playhouse Cinema", details: "Sponsored by Robin Lennox.", zone: "playhouse" },
@@ -86,7 +87,6 @@ const SCHEDULE = [
   { time: "All day", activity: "Music to Draw To", location: "Hamilton Craft Studios", details: "Adrian V on the decks. Come hang out and draw.", zone: "hcs" },
   { time: "All day", activity: "Seedling Sale", location: "Pinch Patio", details: "Mad Meadow Farms and Grown by Scout.", zone: "playhouse" },
   { time: "All day", activity: "Humble Bee Honey Tasting", location: "Pinch Patio", details: "", zone: "playhouse" },
-  { time: "9:30am – 10:30am", activity: "Storytime with Parkette", location: "Playhouse & Pinch area", details: "With Maria from Parkette.", zone: "playhouse" },
   { time: "All day", activity: "Planter Planting, Mural, Hammocks, Games & Music", location: "Earl St Lot", details: "Planting planters, new mural by Lucky Bones (Rachel Riordan), hammocks, games, cornhole, and music.", zone: "earl" },
   { time: "All day", activity: "Hygiene Drive & Lawn Games", location: "Playhouse & Pinch Parking Lot", details: "Hosted by Helping Hands Street Mission & The Baby Depot.", zone: "playhouse" },
 ];
@@ -172,7 +172,7 @@ const FOOD = {
     { name: "Real Fruity Ice Cream", location: "Outside Hamilton Craft Studios", description: "New Zealand-inspired, made-to-order ice cream and frozen yogurt blended with real fruit. Dairy-free and vegan options available.", url: "https://www.instagram.com/realfruityicecream/" },
     { name: "Thirds Coffee", location: "Third floor, Hamilton Craft Studios", description: "Small-batch Hamilton coffee roaster founded by sisters Olivia and Alex Billeci. Community-focused and expertly roasted.", url: "https://www.thirdscoffeeco.com/" },
     { name: "Humble Bee", location: "Pinch patio", description: "Hamilton-based urban bee farm, selling raw, small-batch local honey and 100% beeswax candles. They also sell beekeeping equipment, beekeeping education, and bees.", url: "https://www.humblebee.buzz/" },
-    { name: "Pinch: Bakery & Plant Shop", location: "183 Sherman Ave N", description: "Nut-free bakery, cafe, and plant shop. Popcorn, baked goods, and more.", url: "https://www.shopatpinch.com/" },
+    { name: "Pinch: Bakery & Plant Shop", location: "183 Sherman Ave N", description: "Nut-free bakery, cafe, and plant shop. Grab-and-go lunch items, baked goods, and more.", url: "https://www.shopatpinch.com/" },
   ],
   cakePicnic: {
     time: "12:30pm – 2:00pm",
@@ -214,6 +214,7 @@ const BUSINESSES = {
     { name: "Hamilton Craft Studios", address: "121 Princess St", bio: "A 14,000-square-foot shared creative space in a restored heritage wire factory, founded by Dayna Gedney. Studios for ceramics, textiles, woodworking, and general arts, with classes, memberships, and workspace for makers of all skill levels.", url: "https://hamiltoncraftstudios.com/" },
     { name: "Playhouse Cinema", address: "177 Sherman Ave N", bio: "Hamilton's oldest surviving cinema, built in 1914 as a Beaux-Arts vaudeville theatre. Beautifully restored and reopened in 2019 by the Tutt family as an independent art house cinema. The vintage neon sign and historic architecture make it a neighbourhood landmark.", url: "https://playhousecinema.ca/" },
     { name: "Epic Books: The Sequel", address: "177 Sherman Ave N", bio: "The Sherman Ave location of Jaime Krakowski's beloved independent bookstore. A carefully curated mix of fiction, non-fiction, and a fantastic kids section.", url: "https://epicbooks.ca/" },
+    { name: "Barton Village BIA", bio: "The Business Improvement Area supporting Barton Village businesses and community. Key organizer and community partner for the Sherman Street Party.", url: "https://bartonvillage.ca/" },
   ],
   neighbourhood: [
     { name: "Vero Gallery Café", address: "659 Barton St E", bio: "A coffee shop and art gallery that opened in 2026 in Barton Village. Espresso drinks, pastries, and rotating exhibitions from Hamilton and area artists.", url: "https://www.verocreativestudio.com/" },
@@ -241,7 +242,7 @@ const BUSINESSES = {
 const GETTING_THERE = {
   parking: [
     { name: "Emterra Lot", detail: "Free parking on Biggar Ave, near Cotton Factory." },
-    { name: "Municipal Car Park #64", detail: "Near the event corridor." },
+    { name: "Municipal Car Park #64", detail: "Free parking thanks to the Ward 3 Community Grant." },
     { name: "Street parking", detail: "Available throughout the corridor." },
   ],
   transit: {
@@ -249,10 +250,12 @@ const GETTING_THERE = {
     busUrl: "https://www.hamilton.ca/hsr",
   },
   cycling: {
-    description: "Two Hamilton Bike Share (SoBi) hubs nearby — one in front of Cotton Factory, and one on the southwest corner of Barton and Sherman. Download the SoBi app to get started.",
+    description: "Two Hamilton Bike Share (SoBi) hubs nearby — one in front of Cotton Factory, and one on the southwest corner of Barton and Sherman.",
+    url: "https://hamilton.socialbicycles.com/",
   },
   scooter: {
-    description: "Bird e-scooters are available in the area via the Bird Canada app. Must be 16+. Lock to a bike rack or pole to end your ride.",
+    description: "Bird e-scooters are available in the area. Must be 16+. Lock to a bike rack or pole to end your ride.",
+    url: "https://birdcanada.ca/ride-now/",
   },
   accessibility: [
     "All areas are sidewalk-accessible. Cotton Factory and Hamilton Craft Studios both have elevators.",
@@ -284,7 +287,6 @@ const FAQS = [
 
 const SPONSORS = [
   { name: "Emterra", role: "Parking lot & event cleanup" },
-  { name: "Barton Village BIA", role: "Community partner" },
   { name: "City of Hamilton, Ward 3", role: "Grant funding" },
   { name: "Robin Lennox", role: "Kids movie sponsorship" },
 ];
@@ -489,7 +491,7 @@ function CorridorMap() {
     });
 
     L.marker([43.2605, -79.8329], { icon: labelIcon('P', '#555') }).addTo(map).bindPopup('<b>Emterra Lot (FREE)</b><br><span style="font-size:12px;">15 Biggar Ave</span>');
-    L.marker([43.2568, -79.8355], { icon: labelIcon('P', '#555') }).addTo(map).bindPopup('<b>Municipal Car Park #64</b><br><span style="font-size:12px;">176 Sherman Ave N</span>');
+    L.marker([43.2568, -79.8355], { icon: labelIcon('P', '#555') }).addTo(map).bindPopup('<b>Municipal Car Park #64 (FREE)</b><br><span style="font-size:12px;">176 Sherman Ave N — free thanks to Ward 3 Community Grant</span>');
     L.marker([43.2578, -79.8334], { icon: labelIcon('🌳', '#5DCAA5') }).addTo(map).bindPopup('<b>Lucy Day Park</b><br><span style="font-size:12px;">33 Clinton St — quiet space / sensory break</span>');
     L.marker([43.2600, -79.8331], { icon: labelIcon('🚲', '#4BB8F0') }).addTo(map).bindPopup('<b>SoBi: 270 Sherman</b><br><span style="font-size:12px;">272 Sherman Ave N (near Cotton Factory)</span>');
     L.marker([43.2559, -79.8366], { icon: labelIcon('🚲', '#4BB8F0') }).addTo(map).bindPopup('<b>SoBi: Sherman at Barton (ERI02)</b><br><span style="font-size:12px;">141-147 Sherman Ave N</span>');
@@ -654,12 +656,14 @@ function GettingTherePage() {
 
       <SectionLabel color={COLORS.limeGreen}>By Bike</SectionLabel>
       <Card>
-        <p style={{ fontFamily: "'Futura', sans-serif", fontSize: 14, color: "#555", margin: 0, lineHeight: 1.4 }}>{GETTING_THERE.cycling.description}</p>
+        <p style={{ fontFamily: "'Futura', sans-serif", fontSize: 14, color: "#555", margin: "0 0 8px", lineHeight: 1.4 }}>{GETTING_THERE.cycling.description}</p>
+        <ExtLink href={GETTING_THERE.cycling.url} style={{ fontSize: 13 }}>Hamilton Bike Share →</ExtLink>
       </Card>
 
       <SectionLabel color={COLORS.orange}>By Scooter</SectionLabel>
       <Card>
-        <p style={{ fontFamily: "'Futura', sans-serif", fontSize: 14, color: "#555", margin: 0, lineHeight: 1.4 }}>{GETTING_THERE.scooter.description}</p>
+        <p style={{ fontFamily: "'Futura', sans-serif", fontSize: 14, color: "#555", margin: "0 0 8px", lineHeight: 1.4 }}>{GETTING_THERE.scooter.description}</p>
+        <ExtLink href={GETTING_THERE.scooter.url} style={{ fontSize: 13 }}>Bird Canada →</ExtLink>
       </Card>
 
       <SectionLabel color={COLORS.purple}>Accessibility</SectionLabel>
