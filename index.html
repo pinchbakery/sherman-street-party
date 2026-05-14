@@ -54,7 +54,7 @@ const EVENT_INFO = {
   instagram: "@shermanstreetparty",
   instagramUrl: "https://www.instagram.com/shermanstreetparty/",
   email: "shermanstreetparty@gmail.com",
-  feedbackFormUrl: "", // Add Google Form URL when ready
+  feedbackFormUrl: "https://docs.google.com/forms/d/e/1FAIpQLScQfmTDUhccnIBqqpYwmGTcFgLUl3f7baQddKRHIFgF_OQldw/viewform?usp=sharing&ouid=115783366317464607273",
   cakeSignupUrl: "https://forms.gle/kTrd7YdmED6ZmHjR9",
 };
 
@@ -72,11 +72,11 @@ const COLORS = {
 
 const SCHEDULE = [
   { time: "9:30am – 12:30pm", activity: "Scholastic Kids Activities", location: "Playhouse & Pinch", details: "Klutz kits, origami, colouring sheets, stickers. Ages 8+ for most activities.", zone: "playhouse" },
-  { time: "10:00am – 11:00am", activity: "Paul Fralick — Live Music", location: "Playhouse & Pinch Parking Lot", details: "aka The Lone Rhubarbarian. Acoustic music to start your morning.", zone: "playhouse" },
-  { time: "10:00am – 12:00pm", activity: "Kids Movie Screening", location: "Playhouse Cinema", details: "Sponsored by Robin Lennox. Film TBD.", zone: "playhouse" },
+  { time: "10:30am – 11:30am", activity: "Paul Fralick — Live Music", location: "Playhouse & Pinch Parking Lot", details: "aka The Lone Rhubarbarian. Acoustic music to start your morning.", zone: "playhouse" },
+  { time: "10:00am – 12:00pm", activity: "Zootopia — Kids Movie Screening", location: "Playhouse Cinema", details: "Sponsored by Robin Lennox.", zone: "playhouse" },
   { time: "10:00am – 4:00pm", activity: "Food Trucks", location: "Hamilton Craft Studios", details: "Galaxy Burger & Real Fruity Ice Cream (outside), Thirds Coffee (third floor).", zone: "hcs" },
   { time: "12:30pm – 2:00pm", activity: "Cake Picnic for a Good Cause", location: "Playhouse & Pinch Parking Lot", details: "Co-hosted by Pinch & Virgo Moon Baking. Bring a 6\" nut-free cake. Leftover slices sold — $5 for 2, $10 for up to 5. All proceeds to The Dream Center (fire recovery).", zone: "playhouse" },
-  { time: "All day", activity: "Makers Market (~25 vendors)", location: "Cotton Factory", details: "", zone: "cotton" },
+  { time: "All day", activity: "Flux Bazaar (~25 vendors)", location: "Cotton Factory", details: "", zone: "cotton" },
   { time: "All day", activity: "Born to Eat Food Truck", location: "Cotton Factory (out front)", details: "", zone: "cotton" },
   { time: "All day", activity: "Maker's Market (~12 participants)", location: "Hamilton Craft Studios (3rd floor)", details: "", zone: "hcs" },
   { time: "All day", activity: "Clothing Swap", location: "Hamilton Craft Studios", details: "All sizes, all styles, not gendered.", zone: "hcs" },
@@ -86,8 +86,8 @@ const SCHEDULE = [
   { time: "All day", activity: "Music to Draw To", location: "Hamilton Craft Studios", details: "Adrian V on the decks. Come hang out and draw.", zone: "hcs" },
   { time: "All day", activity: "Seedling Sale", location: "Pinch Patio", details: "Mad Meadow Farms and Grown by Scout.", zone: "playhouse" },
   { time: "All day", activity: "Humble Bee Honey Tasting", location: "Pinch Patio", details: "", zone: "playhouse" },
-  { time: "All day", activity: "Storytime with Parkette", location: "Playhouse & Pinch area", details: "", zone: "playhouse" },
-  { time: "All day", activity: "Community Build, Hammocks, Games & Cornhole", location: "Earl St Lot", details: "BIA community build — planters, benches, and more.", zone: "earl" },
+  { time: "9:30am – 10:30am", activity: "Storytime with Parkette", location: "Playhouse & Pinch area", details: "With Maria from Parkette.", zone: "playhouse" },
+  { time: "All day", activity: "Planter Planting, Mural, Hammocks, Games & Music", location: "Earl St Lot", details: "Planting planters, new mural by Lucky Bones (Rachel Riordan), hammocks, games, cornhole, and music.", zone: "earl" },
   { time: "All day", activity: "Hygiene Drive & Lawn Games", location: "Playhouse & Pinch Parking Lot", details: "Hosted by Helping Hands Street Mission & The Baby Depot.", zone: "playhouse" },
 ];
 
@@ -99,7 +99,7 @@ const ZONES = [
     color: COLORS.limeGreen,
     side: "East side of Sherman",
     activities: [
-      "Makers market — approximately 25 vendors",
+      "Flux Bazaar — approximately 25 vendors",
       "Born to Eat food truck (out front)",
       "Live drawing (to be confirmed)",
     ],
@@ -134,10 +134,10 @@ const ZONES = [
     color: COLORS.hotPink,
     side: "West side of Sherman",
     activities: [
-      "Kids movie screening (10am–12pm)",
-      "Paul Fralick — live music (10am–11am)",
+      "Zootopia — kids movie screening (10am–12pm)",
+      "Paul Fralick — live music (10:30am–11:30am)",
       "Scholastic kids activities (9:30am–12:30pm)",
-      "Storytime with Parkette",
+      "Storytime with Parkette (9:30am–10:30am)",
       "Cake Picnic for a Good Cause (12:30pm–2pm)",
       "Seedling sale — Mad Meadow Farms + Grown by Scout (Pinch patio)",
       "Humble Bee honey tasting (Pinch patio)",
@@ -154,8 +154,10 @@ const ZONES = [
     color: COLORS.royalBlue,
     side: "West side (at Barton & Earl)",
     activities: [
-      "BIA community build — planters, benches",
+      "Planting planters",
+      "New mural by Lucky Bones (Rachel Riordan)",
       "Hammocks, games, cornhole",
+      "Music",
     ],
     washrooms: "Nearby at Pinch and Playhouse",
     parking: "Street parking",
@@ -169,7 +171,7 @@ const FOOD = {
     { name: "Galaxy Burger", location: "Outside Hamilton Craft Studios", description: "Award-winning Hamilton food truck. Smash burgers made from daily-sourced ingredients.", url: "https://www.galaxyburger.ca/" },
     { name: "Real Fruity Ice Cream", location: "Outside Hamilton Craft Studios", description: "New Zealand-inspired, made-to-order ice cream and frozen yogurt blended with real fruit. Dairy-free and vegan options available.", url: "https://www.instagram.com/realfruityicecream/" },
     { name: "Thirds Coffee", location: "Third floor, Hamilton Craft Studios", description: "Small-batch Hamilton coffee roaster founded by sisters Olivia and Alex Billeci. Community-focused and expertly roasted.", url: "https://www.thirdscoffeeco.com/" },
-    { name: "Humble Bee", location: "Pinch patio", description: "Hamilton-based urban bee farm. Raw, unpasteurized, small-batch local honey tasting, plus beekeeping education.", url: "https://www.humblebee.buzz/" },
+    { name: "Humble Bee", location: "Pinch patio", description: "Hamilton-based urban bee farm, selling raw, small-batch local honey and 100% beeswax candles. They also sell beekeeping equipment, beekeeping education, and bees.", url: "https://www.humblebee.buzz/" },
     { name: "Pinch: Bakery & Plant Shop", location: "183 Sherman Ave N", description: "Nut-free bakery, cafe, and plant shop. Popcorn, baked goods, and more.", url: "https://www.shopatpinch.com/" },
   ],
   cakePicnic: {
@@ -193,14 +195,14 @@ const FOOD = {
 };
 
 const KIDS = [
-  { name: "Kids Movie Screening", time: "10:00am – 12:00pm", location: "Playhouse Cinema", description: "Sponsored by Robin Lennox. Film TBD." },
+  { name: "Zootopia — Kids Movie Screening", time: "10:00am – 12:00pm", location: "Playhouse Cinema", description: "Sponsored by Robin Lennox." },
   { name: "Scholastic Activity Kits", time: "9:30am – 12:30pm", location: "Playhouse & Pinch area", description: "Klutz kits, origami, colouring sheets, stickers. Ages 8+ for most activities." },
-  { name: "Storytime with Parkette", time: "All day", location: "Playhouse & Pinch area", description: "Stories for the littles." },
-  { name: "Paul Fralick — Live Music", time: "10:00am – 11:00am", location: "Playhouse & Pinch Parking Lot", description: "aka The Lone Rhubarbarian. Great for kids and grown-ups alike." },
+  { name: "Storytime with Parkette", time: "9:30am – 10:30am", location: "Playhouse & Pinch area", description: "Stories for the littles, with Maria from Parkette." },
+  { name: "Paul Fralick — Live Music", time: "10:30am – 11:30am", location: "Playhouse & Pinch Parking Lot", description: "aka The Lone Rhubarbarian. Great for kids and grown-ups alike." },
   { name: "Craft Zone", time: "All day", location: "Hamilton Craft Studios", description: "Pinwheels and more — come craft with us! All ages." },
-  { name: "Humble Bee Honey Tasting", time: "All day", location: "Pinch patio", description: "Taste local honey and learn about bees." },
+  { name: "Humble Bee", time: "All day", location: "Pinch patio", description: "Check out local honey, beeswax candles, and learn about bees." },
   { name: "Seedling Sale", time: "All day", location: "Pinch patio", description: "Mad Meadow Farms and Grown by Scout." },
-  { name: "Hammocks, Games & Cornhole", time: "All day", location: "Earl St Lot", description: "Run around, play, hang out." },
+  { name: "Hammocks, Games, Cornhole & Mural", time: "All day", location: "Earl St Lot", description: "Run around, play, watch Lucky Bones paint a new mural." },
   { name: "Hygiene Drive & Lawn Games", time: "All day", location: "Playhouse & Pinch Parking Lot", description: "Hosted by Helping Hands Street Mission & The Baby Depot." },
   { name: "Lucy Day Park", time: "Always open", location: "33 Clinton Street", description: "A short walk away — great for a break or outdoor play." },
 ];
@@ -228,7 +230,7 @@ const BUSINESSES = {
     { name: "Born to Eat", bio: "Food truck serving comfort food — burgers, tacos, and mac n' cheese balls. Healthy, fresh, and comforting.", url: "http://www.born2eat.ca/" },
     { name: "Real Fruity Ice Cream", bio: "New Zealand-inspired, made-to-order ice cream blended with real fruit. Vegan options available.", url: "https://www.instagram.com/realfruityicecream/" },
     { name: "Thirds Coffee", bio: "Small-batch Hamilton coffee roaster. Community-focused and expertly roasted.", url: "https://www.thirdscoffeeco.com/" },
-    { name: "Humble Bee", bio: "Hamilton-based urban bee farm with over 200 hives. Raw, small-batch local honey and beekeeping education.", url: "https://www.humblebee.buzz/" },
+    { name: "Humble Bee", bio: "Hamilton-based urban bee farm, selling raw, small-batch local honey and 100% beeswax candles. They also sell beekeeping equipment, beekeeping education, and bees.", url: "https://www.humblebee.buzz/" },
     { name: "Virgo Moon Baking", bio: "Co-hosting the Cake Picnic for a Good Cause with Pinch.", url: "https://www.instagram.com/virgomoonbaking/" },
     { name: "Mad Meadow Farm", bio: "Locally grown organic vegetables and seedlings from Hamilton, Ontario.", url: "https://www.madmeadowfarm.com/" },
     { name: "Grown by Scout", bio: "Small-scale, no-till allotment growing mostly tomatoes in Millgrove, Ontario. Zone 6b.", url: "https://www.instagram.com/grownbyscout/" },
@@ -465,10 +467,10 @@ function CorridorMap() {
     }
 
     var zones = [
-      [43.2600, -79.8333, "Cotton Factory", "270 Sherman Ave N. ~25 vendors, Born to Eat food truck out front.", "#A8E10C"],
+      [43.2600, -79.8333, "Cotton Factory", "270 Sherman Ave N. Flux Bazaar (~25 vendors), Born to Eat food truck out front.", "#A8E10C"],
       [43.2587, -79.8345, "Hamilton Craft Studios", "121 Princess St. Maker's market (3rd floor), clothing swap, garment mending clinic, furniture repair clinic, craft zone, Music to Draw To. Galaxy Burger + Real Fruity (outside), Thirds Coffee (3rd floor).", "#FF8C00"],
-      [43.2573, -79.8360, "Playhouse & Pinch", "177-183 Sherman Ave N. Kids movie (10am-12pm), Paul Fralick (10-11am), Scholastic activities (9:30am-12:30pm), storytime with Parkette, Cake Picnic (12:30-2pm), seedling sale, Humble Bee honey tasting, hygiene drive + lawn games.", "#FF1493"],
-      [43.2570, -79.8378, "Earl St Lot", "Barton St E at Earl St. BIA community build (planters, benches), hammocks, games, cornhole.", "#1A1AE8"]
+      [43.2573, -79.8360, "Playhouse & Pinch", "177-183 Sherman Ave N. Zootopia screening (10am-12pm), Paul Fralick (10:30-11:30am), Scholastic activities (9:30am-12:30pm), storytime with Parkette (9:30-10:30am), Cake Picnic (12:30-2pm), seedling sale, Humble Bee, hygiene drive + lawn games.", "#FF1493"],
+      [43.2570, -79.8378, "Earl St Lot", "Barton St E at Earl St. Planting planters, new mural by Lucky Bones, hammocks, games, cornhole, and music.", "#1A1AE8"]
     ];
     zones.forEach(function(z) {
       L.marker([z[0], z[1]], { icon: zoneIcon(z[4]) }).addTo(map).bindPopup('<b style="color:'+z[4]+'">'+z[2]+'</b><br><span style="font-size:12px;">'+z[3]+'</span>');
