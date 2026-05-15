@@ -104,7 +104,7 @@ const ZONES = [
       "Live drawing (to be confirmed)",
     ],
     washrooms: "Available on-site",
-    parking: "Emterra lot on Biggar Ave",
+    parking: "CLP lot on Biggar Ave",
     seating: "Picnic tables out front",
   },
   {
@@ -189,7 +189,7 @@ const FOOD = {
     "Most vendors take a mix of cash and card. Bring cash — it lends into the street party vibe.",
     "Real Fruity and Pinch have vegan options. Pinch is a nut-free kitchen.",
     "Please bring your own reusable water bottle!",
-    "No alcohol is available at this event.",
+    "No alcohol is available through the street party vendors. Hendry's Barbershop on Barton has a licensed patio if you're looking for a drink!",
     "You're welcome to bring your own food.",
   ],
 };
@@ -219,7 +219,7 @@ const BUSINESSES = {
   neighbourhood: [
     { name: "Vero Gallery Café", address: "659 Barton St E", bio: "A coffee shop and art gallery that opened in 2026 in Barton Village. Espresso drinks, pastries, and rotating exhibitions from Hamilton and area artists.", url: "https://www.verocreativestudio.com/" },
     { name: "Hotties SmashBurgers", address: "657 Barton St E", bio: "Smashed in Toronto, moved to Hamilton. Smashburgers, all-beef dogs, cheese fries, and signature pink soft serve on Barton Street.", url: "https://hottiessmashburgers.com/" },
-    { name: "Hendry's Barbershop", address: "661 Barton St E", bio: "A barbershop, a bar, and a Hamilton meeting place since 1928. Haircuts, craft beers, comedy nights, and comfortable couches at the corner of Barton and Sherman.", url: "https://hendrys.ca/" },
+    { name: "Hendry's Barbershop", address: "661 Barton St E", bio: "A barbershop, a bar, and a Hamilton meeting place since 1928. Haircuts, craft beers, comedy nights, and comfortable couches at the corner of Barton and Sherman. During the street party: $20+tax walk-in haircuts (subject to availability), $5+tax Steamwhistle beer special, and the licensed patio will be open.", url: "https://hendrys.ca/" },
     { name: "Burdin's Comics", address: "665 Barton St E", bio: "Run by Gary Burton for over 30 years. Comics, graphic novels, trading cards, action figures, and more. Tucked into the alleyway off Barton — accessible via a gravel path.", url: "https://www.burdinscomics.com/" },
   ],
   community: [
@@ -241,7 +241,7 @@ const BUSINESSES = {
 
 const GETTING_THERE = {
   parking: [
-    { name: "Emterra Lot", detail: "Free parking on Biggar Ave, near Cotton Factory." },
+    { name: "CLP Lot (Canadian Liquids Processors)", detail: "Free parking on Biggar Ave, near Cotton Factory." },
     { name: "Municipal Car Park #64", detail: "Free parking thanks to the Ward 3 Community Grant." },
     { name: "Street parking", detail: "Available throughout the corridor." },
   ],
@@ -251,7 +251,9 @@ const GETTING_THERE = {
   },
   cycling: {
     description: "Two Hamilton Bike Share (SoBi) hubs nearby — one in front of Cotton Factory, and one on the southwest corner of Barton and Sherman.",
-    url: "https://hamilton.socialbicycles.com/",
+    url: "https://hamiltonbikeshare.ca/",
+    promo: "Use code BARTON26 for $5 off your ride! One-time use per person. Expires June 13. Valid for the Sherman Street Party or the Barton Annual Street Hang (BASH).",
+    promoSteps: "To redeem: open the SoBi app → tap the account icon → tap your balance → tap 'Add Promo Code' → enter BARTON26. New users will be prompted during registration.",
   },
   scooter: {
     description: "Bird e-scooters are available in the area. Must be 16+. Lock to a bike rack or pole to end your ride.",
@@ -277,7 +279,7 @@ const FAQS = [
   { q: "Are dogs allowed?", a: "Dogs are encouraged! We love doggos." },
   { q: "What should I bring?", a: "Reusable water bottle, cash (ideal for the markets and cake picnic), sunscreen, and shopping bags if you plan to browse." },
   { q: "Is there water available?", a: "Please bring your own reusable water bottle!" },
-  { q: "Is alcohol available?", a: "No — there is no alcohol available at this event." },
+  { q: "Is alcohol available?", a: "There's no alcohol at the street party activities, but Hendry's Barbershop has a licensed patio on Barton with a $5 Steamwhistle special for the day!" },
   { q: "Can I bring my own food?", a: "Absolutely!" },
   { q: "Are strollers welcome?", a: "Yes!" },
   { q: "Do vendors take cards?", a: "Most makers markets are a mix of cash and card. We encourage you to bring cash — it lends into the street party vibe." },
@@ -286,7 +288,8 @@ const FAQS = [
 ];
 
 const SPONSORS = [
-  { name: "Emterra", role: "Parking lot & event cleanup" },
+  { name: "Canadian Liquids Processors (CLP)", role: "Parking lot & event cleanup" },
+  { name: "Hamilton Bike Share", role: "Bike share promo code BARTON26" },
   { name: "City of Hamilton, Ward 3", role: "Grant funding" },
   { name: "Robin Lennox", role: "Kids movie sponsorship" },
 ];
@@ -490,7 +493,7 @@ function CorridorMap() {
       L.marker([b[0], b[1]], { icon: smallDot() }).addTo(map).bindPopup('<b>'+b[2]+'</b><br><span style="font-size:12px;">'+b[3]+'</span>');
     });
 
-    L.marker([43.2605, -79.8329], { icon: labelIcon('P', '#555') }).addTo(map).bindPopup('<b>Emterra Lot (FREE)</b><br><span style="font-size:12px;">15 Biggar Ave</span>');
+    L.marker([43.2605, -79.8329], { icon: labelIcon('P', '#555') }).addTo(map).bindPopup('<b>CLP Lot (FREE)</b><br><span style="font-size:12px;">15 Biggar Ave — Canadian Liquids Processors</span>');
     L.marker([43.2568, -79.8355], { icon: labelIcon('P', '#555') }).addTo(map).bindPopup('<b>Municipal Car Park #64 (FREE)</b><br><span style="font-size:12px;">176 Sherman Ave N — free thanks to Ward 3 Community Grant</span>');
     L.marker([43.2578, -79.8334], { icon: labelIcon('🌳', '#5DCAA5') }).addTo(map).bindPopup('<b>Lucy Day Park</b><br><span style="font-size:12px;">33 Clinton St — quiet space / sensory break</span>');
     L.marker([43.2600, -79.8331], { icon: labelIcon('🚲', '#4BB8F0') }).addTo(map).bindPopup('<b>SoBi: 270 Sherman</b><br><span style="font-size:12px;">272 Sherman Ave N (near Cotton Factory)</span>');
@@ -625,7 +628,7 @@ function BusinessesPage() {
       <Section title="On the Street" items={BUSINESSES.neighbourhood} color={COLORS.orange} />
       <Section title="Community" items={BUSINESSES.community} color={COLORS.purple} />
       <Section title="Vendors & Partners" items={BUSINESSES.vendors} color={COLORS.limeGreen} />
-      <SectionLabel color={COLORS.darkBlue}>Sponsors</SectionLabel>
+      <SectionLabel color={COLORS.darkBlue}>Sponsors & Community Partners</SectionLabel>
       <Card>
         {SPONSORS.map((s, i) => (
           <p key={i} style={{ fontFamily: "'Futura', sans-serif", fontSize: 14, color: "#555", margin: "0 0 4px" }}><strong>{s.name}</strong> — {s.role}</p>
@@ -657,6 +660,11 @@ function GettingTherePage() {
       <SectionLabel color={COLORS.limeGreen}>By Bike</SectionLabel>
       <Card>
         <p style={{ fontFamily: "'Futura', sans-serif", fontSize: 14, color: "#555", margin: "0 0 8px", lineHeight: 1.4 }}>{GETTING_THERE.cycling.description}</p>
+        <div style={{ background: "#E8F5E9", borderRadius: 10, padding: "10px 14px", margin: "8px 0" }}>
+          <p style={{ fontFamily: "'League Spartan', sans-serif", fontSize: 14, fontWeight: 700, color: COLORS.darkBlue, margin: "0 0 4px" }}>🚲 $5 off with code BARTON26</p>
+          <p style={{ fontFamily: "'Futura', sans-serif", fontSize: 12, color: "#555", margin: "0 0 6px", lineHeight: 1.4 }}>{GETTING_THERE.cycling.promo}</p>
+          <p style={{ fontFamily: "'Futura', sans-serif", fontSize: 11, color: "#777", margin: 0, lineHeight: 1.4 }}>{GETTING_THERE.cycling.promoSteps}</p>
+        </div>
         <ExtLink href={GETTING_THERE.cycling.url} style={{ fontSize: 13 }}>Hamilton Bike Share →</ExtLink>
       </Card>
 
@@ -715,6 +723,12 @@ function ContactPage() {
         <p style={{ fontFamily: "'League Spartan', sans-serif", fontSize: 17, fontWeight: 800, color: COLORS.darkBlue, margin: "0 0 6px" }}>Got a question?</p>
         <p style={{ fontFamily: "'Futura', sans-serif", fontSize: 14, color: "#555", margin: "0 0 10px", lineHeight: 1.4 }}>Email us and we'll get back to you as soon as we can.</p>
         <ExtLink href={"mailto:" + EVENT_INFO.email} style={{ fontSize: 15, color: COLORS.royalBlue }}>{EVENT_INFO.email}</ExtLink>
+      </Card>
+
+      <Card accent={COLORS.orange} style={{ borderLeft: "5px solid " + COLORS.orange }}>
+        <p style={{ fontFamily: "'League Spartan', sans-serif", fontSize: 17, fontWeight: 800, color: COLORS.darkBlue, margin: "0 0 6px" }}>🧹 Street Cleanup — Friday May 22</p>
+        <p style={{ fontFamily: "'Futura', sans-serif", fontSize: 14, color: "#555", margin: "0 0 6px", lineHeight: 1.4 }}>Help us get the street ready for Saturday! Join the cleanup crew from 10am to 12pm. Meet at Barton and Sherman, near the mural.</p>
+        <p style={{ fontFamily: "'Futura', sans-serif", fontSize: 13, color: "#888", margin: 0 }}>Everyone welcome — just show up!</p>
       </Card>
 
       <Card accent={COLORS.limeGreen}>
